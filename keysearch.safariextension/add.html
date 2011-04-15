@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<link rel="stylesheet" href="css/modal.css" type="text/css" media="screen" />
+	<script type="text/javascript" src="js/mootools.js"></script>
+	<script type="text/javascript" src="js/store.js"></script>
+	<script type="text/javascript" src="js/add.js"></script>
+	<title>Settings</title>
+	<meta charset="utf-8" />
+	</head>
+	<body class="add">
+	<header>
+		<h1>Create a Keyword Search</h1>
+	</header>
+	<section>
+		<form id="form" onSubmit="submitKeyword(); return false;">
+		<fieldset>
+			<p class="add">
+			<label for="keyword" class="add">Keyword:</label>
+			<input name="keyword" type="text" id="keyword" onKeyup="validateForm()" />
+			<span id="keyDesc" class="description"> </span>
+			</p>
+			<p id="dropDown" style="display:none" class="add">
+			<label for="buttonPressed" class="add">Button Pressed:</label>
+			<select name="buttonPressed" id="buttonSelect">
+			</select>
+			</p>
+			<p class="add">
+			<button name="save" id="addSubmit" type="submit">Save</button
+			</p>
+		</fieldset>
+		</form>
+	</section>
+	</body>
+</html>

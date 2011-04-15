@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+	<link rel="stylesheet" href="css/modal.css" type="text/css" media="screen" />
+	<script type="text/javascript" src="js/mootools.js"></script>
+	<script type="text/javascript" src="js/settings.js"></script>
+	<title>Settings</title>
+	<meta charset="utf-8" />
+  </head>
+  <body class="settings">
+	<header>
+	  <h1>Settings</h1>
+	</header>
+	<section>
+	  <form id="form" onSubmit="return false;">
+		<fieldset>
+		  <p class="settings">
+			<label for="keyboardShortcut" class="settings">Keyboard Shortcut:</label>
+			 <input id="keyboardShortcut" name="keyboardShortcut" type="text" onKeyPress="shortcutKeypress(event)" onKeyDown="shortcutKeydown(event)" onClick="this.select();">
+		  </p>
+		  <p class="settings">
+			<label for="keyboardShortcutAction" class="settings">Search using:</label>
+			<input id="toolbar" name="keyboardShortcutAction" type="radio" value="1" onclick="radioClicked(this)">
+			<label for="toolbar" class="choice">Toolbar</label>
+			<input id="modal" name="keyboardShortcutAction" type="radio" value="2" onclick="radioClicked(this)">
+			<label for="modal" class="choice">Modal popup</label>
+		  </p>
+		  <p class="settings">
+			<label for="afterSearch" class="settings">After toolbar search:</label>
+			<input id="toolbarStays" name="afterSearch" type="radio" value="1" onclick="radioClicked(this)">
+			<label for="toolbarStays" class="choice">Toolbar Stays</label>
+			<input id="toolbarHides" name="afterSearch" type="radio" value="2" onclick="radioClicked(this)">
+			<label for="toolbarHides" class="choice">Toolbar Hides</label>
+		  </p>
+		  <p class="settings">
+			<label for="resultsType" class="settings">Results open in:</label>
+			<input id="foreground" name="resultsType" type="radio" value="1" onclick="radioClicked(this)">
+			<label for="foreground" class="choice">Foreground tab</label>
+			<input id="background" name="resultsType" type="radio" value="2" onclick="radioClicked(this)">
+			<label for="background" class="choice">Background tab</label>
+			<input id="new" name="resultsType" type="radio" value="3" onclick="radioClicked(this)">
+			<label for="new" class="choice">New window</label>
+			<input id="current" name="resultsType" type="radio" value="4" onclick="radioClicked(this)">
+			<label for="current" class="choice">Current window</label>
+		  </p>
+		</fieldset>
+	  </form>
+	</section>
+  </body>
+</html>

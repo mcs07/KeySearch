@@ -1,0 +1,56 @@
+function pageLoaded() {
+	safari.self.tab.dispatchMessage('getSetting', 'keyboardShortcutAction');
+	safari.self.tab.dispatchMessage('getSetting', 'afterSearch');
+	safari.self.tab.dispatchMessage('getSetting', 'resultsType');
+	safari.self.tab.dispatchMessage('getSetting', 'shortcut');
+}
+
+function handleMessage(msg) {
+	if (msg.name == 'returnSetting') {
+		if (msg.message.key == 'shortcut') {
+			$('keyboardShortcut').value = parseShortcut(msg.message.value);
+		} else {
+			$(msg.message.value).checked = true;
+		}   
+	}
+}
+
+function parseShortcut(shortcut) {
+	shortcut = ('0000000'+shortcut.toString()).slice(-7);
+	var modCode = shortcut.substring(0,4),
+		keyString = '';
+	if (modCode.charAt(3) == 1) keyString += '⇧';
+	if (modCode.charAt(2) == 1) keyString += '⌃';
+	if (modCode.charAt(1) == 1) keyString += '⌥';
+	if (modCode.charAt(0) == 1) keyString += '⌘';
+	keyString += String.fromCharCode(parseInt(shortcut.substring(4),10))
+	return keyString;
+}
+
+function radioClicked(radio) {
+	safari.self.tab.dispatchMessage('setSetting', {key:radio.name, value:radio.id});
+}
+
+function shortcutKeydown(e) {
+	keyPressed =  parseInt(e.keyIdentifier.replace('U+',''), 16);
+}
+
+function shortcutKeypress(e) {
+	shortcut  = keyPressed;
+	shortcut += e.shiftKey * 1000;
+	shortcut += e.ctrlKey  * 10000;
+	shortcut += e.altKey   * 100000;
+	shortcut += e.metaKey  * 1000000;
+	safari.self.tab.dispatchMessage('setSetting', {key:'shortcut', value:shortcut});
+	safari.self.tab.dispatchMessage('getSetting', 'shortcut');
+	e.target.blur();
+}
+
+function handleKeydown(e) {
+	if(e.which == 27)
+		safari.self.tab.dispatchMessage('closeBox');
+}
+
+safari.self.addEventListener('message', handleMessage, false);
+window.addEvent('domready', pageLoaded);
+window.addEventListener('keydown', handleKeydown);

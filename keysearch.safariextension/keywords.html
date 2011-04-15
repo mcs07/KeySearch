@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" href="css/modal.css" type="text/css" media="screen" />
+		<script type="text/javascript" src="js/mootools.js"></script>
+		<script type="text/javascript" src="js/mootools-more.js"></script>
+		<script type="text/javascript" src="js/store.js"></script>
+		<script type="text/javascript" src="js/keywords.js"></script>
+		<title>Edit Keywords</title>
+		<meta charset="utf-8" />
+	</head>
+	<body class="keywords">
+		<header>
+			<h1>Edit Keywords</h1>
+		</header>
+		<aside>
+			<ul id="list">
+			</ul>
+			<a id="new" class="selector" href="#newKeyword">New Keyword</a>
+		</aside>
+		<div id="buttonContainer">
+			<button id="plusButton">+</button>
+			<select id="actionButton">
+				<option value="import">Import Keywords</option>
+				<option value="export">Export Keywords</option>
+			</select>
+		</div>
+		<section class="keywords">
+			<h1 id="title">New Keyword</h1>
+			<form id="form">
+				<fieldset>
+					<div id="enabledBack">
+						<input id="enabled" name="enabled" type="checkbox" onChange="switchChange(this); validateForm()" />
+					</div>
+						
+					<p class="keywords">
+						<label for="keyword" class="keywords">Keyword:</label>
+						<input name="keyword" type="text" onKeyup="validateForm()" onBlur="setName(form)" />
+					</p>
+					<p class="keywords">
+						<label for="name" class="keywords">Name:</label>
+						<input name="name" type="text" onKeyup="validateForm()" />
+					</p>
+					<p class="keywords">
+						<label for="url" class="keywords">URL:</label>
+						<input name="url" type="text" onKeyup="validateForm()" />
+						<span id="urlDescription" class="description">
+							An address with @@@ in place of the search query
+						</span>
+					</p>
+					<p class="keywords">
+						<label for="shortcutDisplay" class="keywords">Shortcut:</label>
+			 			<input id="shortcutDisplay" name="shortcutDisplay" type="text" onKeyPress="shortcutKeypress(event)" onKeyDown="shortcutKeydown(event)" onClick="this.select();">
+			 			<input id="shortcut" name="shortcut" type="hidden">
+		  			</p>
+					<p class="keywords">
+						<button id="save" name="save" type="submit">Save</button>
+						<span id="keywordDescription" class="description">
+						</span>
+					</p>
+				</fieldset>
+			</form>
+		</section>
+	</body>
+</html>

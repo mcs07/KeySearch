@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" href="css/bar.css" type="text/css" media="screen" />
+		<script type="text/javascript" src="js/mootools.js"></script>
+		<script type="text/javascript" src="js/store.js"></script>
+		<script type="text/javascript" src="js/bar.js"></script>
+		<meta charset="utf-8" />
+	</head>
+	<body onload="init()">
+		<form id="theForm" onsubmit="return false;" style="margin-left:10px;">
+			KeySearch:
+			<input type="search" id="keywordSearchField" name="keywordSearchField" value="" onKeydown="searchKeydown(event)" onKeyup="searchKeyup(event)" results="10">
+		</form>
+		<button onclick="openModal('keywords')">Edit Keywords</button>
+		<button onclick="openModal('settings')">Settings</button>
+		<button onclick="app.activeBrowserWindow.activeTab.url ='http://www.macosxtips.co.uk/keysearch/help'">Help</button>
+		<span id="subText">
+		</span>
+	</body>
+</html>
+

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" href="css/modal.css" type="text/css" media="screen" />
+		<script type="text/javascript" src="js/mootools.js"></script>
+		<script type="text/javascript" src="js/store.js"></script>
+		<script type="text/javascript" src="js/import.js"></script>
+		<title>Import Keywords</title>
+		<meta charset="utf-8" />
+	</head>
+	<body class="import">
+		<header>
+			<h1>Import Keywords</h1>
+		</header>
+		<section>
+			<form id="form" onSubmit="importSubmit(this); return false;">
+				<fieldset>
+					<p class="import">
+						<label for="importType" class="import">Import keywords from</label>
+						<select name="typeSelect" onChange="typeChanged(this);">
+							<option value="ff">Firefox</option>
+							<option value="kw">Keywurl</option>
+							<option value="ks">KeySearch</option>
+						</select>
+					</p>
+					<p id="instructions" class="import">
+						1. Open Firefox and choose Show All Bookmarks (&#8679;&#8984;B).<br />
+						2. Select Backup from the  Import and Backup menu.<br />
+						3. Open the saved file with a text editor like TextEdit.<br />
+						4. Copy and paste the contents into the box below.
+					</p>
+					<p class="import">
+						<label for="data"></label>
+						<textarea name="data" class="import"></textarea>
+					</p>
+					<p class="import">
+						<button id="importButton" name="importButton" type="submit">Import</button>
+						<img id="spinner" src="images/spinner.gif" style="display:none;" />
+						<span id="progress" style="display:none;">Importing...</span>
+						</p>
+				</fieldset>
+			</form>
+		</section>
+	</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" href="css/modal.css" type="text/css" media="screen" />
+		<script type="text/javascript" src="js/mootools.js"></script>
+		<script type="text/javascript" src="js/store.js"></script>
+		<script type="text/javascript" src="js/export.js"></script>
+		<title>Export Keywords</title>
+		<meta charset="utf-8" />
+	</head>
+	<body class="export">
+		<header>
+			<h1>Export Keywords</h1>
+		</header>
+		<section>
+			<form id="form" onSubmit="return false;">
+				<fieldset>
+					<p>
+						Use this text to create a backup of your Keywords.
+					</p>
+					<p>
+						Just copy and paste into a text editor to save.
+					</p>
+					<p>
+						<textarea id="data" onClick="selectAll()" class="export"></textarea>
+					</p>
+				</fieldset>
+			</form>
+		</section>
+	</body>
+</html>
