@@ -1,7 +1,7 @@
 function init() {
 	var version = ext.settings.version;
 	switch (true) {
-	case (version == undefined):
+	case (version == undefined): // New installation
 		store.addItem('wiki','Wikipedia','http://en.wikipedia.org/w/index.php?search=@@@',true);
 		store.addItem('!','Open URL','http://@@@',true);
 		store.addItem('amazon','Amazon','http://www.amazon.com/s/ref=nb_sb_noss?field-keywords=@@@&url=search-alias%3Daps&tag=moxt-20',true);
@@ -12,12 +12,12 @@ function init() {
 		store.addItem('imdb','IMDb','http://www.imdb.com/find?s=all&q=@@@',true);
 		store.addItem('youtube','YouTube','http://www.youtube.com/results?search_query=@@@',true);
 		//app.openBrowserWindow();
-		//app.activeBrowserWindow.activeTab.url = 'http://www.macosxtips.co.uk/keysearch/welcome';
+		//app.activeBrowserWindow.activeTab.url = 'http://www.macosxtips.co.uk/keysearch/welcome?t=n';
 		break;
-	case (version < 151):
+	case (version < 151): // Upgrading from 1.5.1 or lower
 		//store.addItem('!','Open URL','http://@@@',true);
 		//app.openBrowserWindow();
-		//app.activeBrowserWindow.activeTab.url = 'http://www.macosxtips.co.uk/keysearch/welcome';
+		//app.activeBrowserWindow.activeTab.url = 'http://www.macosxtips.co.uk/keysearch/welcome?t=151';
 		// migrate old shortcut system to new one
 		break;
 	}

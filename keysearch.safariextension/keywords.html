@@ -50,13 +50,12 @@
 					</p>
 					<p class="keywords">
 						<label for="shortcutDisplay" class="keywords">Shortcut:</label>
-			 			<input id="shortcutDisplay" name="shortcutDisplay" type="text" onKeyPress="shortcutKeypress(event)" onKeyDown="shortcutKeydown(event)" onClick="this.select();">
+			 			<input id="shortcutDisplay" class="shortcutDisplay" name="shortcutDisplay" type="search" onKeyPress="shortcutKeypress(event)" onKeyDown="shortcutKeydown(event)" onClick="this.select()" onFocus="shortcutFocus(this)" onBlur="shortcutBlur(this)">
 			 			<input id="shortcut" name="shortcut" type="hidden">
 		  			</p>
 					<p class="keywords">
 						<button id="save" name="save" type="submit">Save</button>
-						<span id="keywordDescription" class="description">
-						</span>
+						<span id="keywordDescription" class="description"></span>
 					</p>
 				</fieldset>
 			</form>

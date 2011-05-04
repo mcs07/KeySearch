@@ -17,7 +17,7 @@ function pageLoaded() {
 	});
 	plusButton.fireEvent('click');
 	actionButton.addEvent('click', function(event) {
-		safari.self.tab.dispatchMessage("openModalFromModal", this.options[this.selectedIndex].value);
+		safari.self.tab.dispatchMessage('openModalFromModal', this.options[this.selectedIndex].value);
 	});
 }
 
@@ -79,12 +79,14 @@ function bindEditForm(data) {
 		form.enabled.set('checked', data.enabled);
 		switchVisual(form.enabled, 0);
 	}
-	if (data.keyword == "default") {
+	if (data.keyword == 'default') {
 		form.keyword.disabled = true;
 		form.name.disabled = true;
+		form.shortcutDisplay.disabled = true;
 	} else {
 		form.keyword.disabled = false;
 		form.name.disabled = false;
+		form.shortcutDisplay.disabled = false;
 	}
 	form.save.disabled = false;
 	refreshShortcut();
@@ -128,6 +130,7 @@ function bindNewForm() {
 	form.save.disabled = true;
 	form.name.disabled = false;
 	form.keyword.disabled = false;
+	form.shortcutDisplay.disabled = false;
 	refreshShortcut();
 	validateForm();
 	
@@ -150,7 +153,7 @@ function setTitle(title) {
 
 function nameTrunc(name) {
 	if (name.length > 22) {
-		name = name.substr(0,20).replace(/^\s+|\s+$/g,"") + '...';
+		name = name.substr(0,20).replace(/^\s+|\s+$/g,'') + '...';
 	}
 	return name;
 }
@@ -211,25 +214,25 @@ function validateForm() {
 
 	if (!form.keyword.value) {
 		form.save.disabled = true;
-		desc.textContent = "";
+		desc.textContent = '';
 		return;
 	}
 	if (store.getItem(form.keyword.value) && form.keyword.value != $$('.current')[0].getAttribute('href').substr(1)) {
-		desc.textContent = "Keyword must be unique";
+		desc.textContent = 'Keyword must be unique';
 		form.save.disabled = true;
 		return;
 	}
 	if (form.keyword.value.split(' ')[1]) {
-		desc.textContent = "Keyword must be a single word";
+		desc.textContent = 'Keyword must be a single word';
 		form.save.disabled = true;
 		return;
 	}
-	if (form.keyword.value.substr(0,1) == ">") {
-		desc.textContent = "Keyword must not start with >";
+	if (form.keyword.value.substr(0,1) == '>') {
+		desc.textContent = 'Keyword must not start with >';
 		form.save.disabled = true;
 		return;
 	}
-	desc.textContent = "";
+	desc.textContent = '';
 
 	if (!form.keyword.value || !form.url.value) {
 		form.save.disabled = true;
@@ -240,7 +243,7 @@ function validateForm() {
 }
 
 function setName(form) {
-	if (form.name.value == "") {
+	if (form.name.value == '') {
 		form.name.value = form.keyword.value;
 	}
 }
@@ -284,6 +287,18 @@ function shortcutKeypress(e) {
 	e.target.blur();
 }
 
+function shortcutFocus(field) {
+	field.set('styles', {color:'#888'});
+	if (!field.value)
+		field.value = 'Type Shortcut';
+}
+
+function shortcutBlur(field) {
+	field.set('styles', {color:'#000'});
+	if (field.value == 'Type Shortcut')
+		field.value = '';
+}
+
 function refreshShortcut() {
 	shortcut = ('0000000'+$('shortcut').value.toString()).slice(-7);
 	var modCode = shortcut.substring(0,4),
@@ -300,12 +315,12 @@ function refreshShortcut() {
 
 function handleKeyup(e) {
 	if(e.which == 27)
-		safari.self.tab.dispatchMessage("closeBox", "emptyMessage");
+		safari.self.tab.dispatchMessage('closeBox');
 }
 
 const ext  = safari.extension;
 window.addEvent('domready', pageLoaded, false);
-window.addEventListener("keyup", handleKeyup, false);
+window.addEventListener('keyup', handleKeyup, false);
 
 /*
  * This file contains code based upon code in the 

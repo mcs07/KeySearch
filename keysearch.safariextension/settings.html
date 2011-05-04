@@ -16,7 +16,7 @@
 		<fieldset>
 		  <p class="settings">
 			<label for="keyboardShortcut" class="settings">Keyboard Shortcut:</label>
-			 <input id="keyboardShortcut" name="keyboardShortcut" type="text" onKeyPress="shortcutKeypress(event)" onKeyDown="shortcutKeydown(event)" onClick="this.select();">
+			 <input id="keyboardShortcut" class="shortcutDisplay" name="keyboardShortcut" type="search" onKeyPress="shortcutKeypress(event)" onKeyDown="shortcutKeydown(event)" onClick="this.select();"  onFocus="shortcutFocus(this)" onBlur="shortcutBlur(this)">
 		  </p>
 		  <p class="settings">
 			<label for="keyboardShortcutAction" class="settings">Search using:</label>

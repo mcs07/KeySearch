@@ -248,6 +248,11 @@ aside #item-default {
 	background-position-y: -23px;
 }
 
+.shortcutDisplay {
+	text-align: center;
+	width: 120px;
+}
+
 #keywordDescription {
 	float: right;
 	padding: 7px 10px 0 0;
@@ -278,21 +283,6 @@ aside #item-default {
 /* @end */
 
 /* @group Settings */
-
-#keyboardShortcut {
-	border-radius: 4px;
-	font-size: 13px;
-	border: 2px solid #ccc;
-	text-align: center;
-	width: 80px;
-	background-color: #ebebeb;
-	vertical-align: middle;
-}
-
-#keyboardShortcut:focus {
-	outline-width:0;
-	border: 2px solid #68AFE4;
-}
 
 .ksCheckBox {
 	-webkit-appearance: none;

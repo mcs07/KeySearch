@@ -31,6 +31,18 @@ function radioClicked(radio) {
 	safari.self.tab.dispatchMessage('setSetting', {key:radio.name, value:radio.id});
 }
 
+function shortcutFocus(field) {
+	field.set('styles', {color:'#888'});
+	if (!field.value)
+		field.value = 'Type Shortcut';
+}
+
+function shortcutBlur(field) {
+	field.set('styles', {color:'#000'});
+	if (field.value == 'Type Shortcut')
+		field.value = '';
+}
+
 function shortcutKeydown(e) {
 	keyPressed =  parseInt(e.keyIdentifier.replace('U+',''), 16);
 }
