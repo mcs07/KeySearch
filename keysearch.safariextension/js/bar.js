@@ -47,13 +47,17 @@ function toggleBar() {
 	}
 }
 
-function focusBar() {
+function focusBar(keyword) {
 	if (!safari.self.visible) {
 		safari.self.show();
 	}
 	var searchField = $('keywordSearchField');
 	searchField.focus();
-	searchField.select();
+	if (keyword) {
+		searchField.value = keyword+' ';
+	} else {
+		searchField.select();
+	}
 }
 
 function validateCommand(e) {
@@ -136,23 +140,7 @@ function handleMessage(msg) {
 		}
 		break;
 	case 'performKeyboard':
-		// If a keywords shortcut is pressed, show bar and fill keyword
-		store.each(function(data) {
-			if (msg.message == data.shortcut) {
-				
-			}
-		})
-		// The keyword should be sent as a message with openModalSearch
-		
-		// If there is already a stored keyword as the first word, replace it with the new one
-		
-		if (msg.message == ext.settings.shortcut) {
-			if (ext.settings.keyboardShortcutAction == 'toolbar') {
-				focusBar();
-			} else {
-				app.activeBrowserWindow.activeTab.page.dispatchMessage('openModalSearch');
-			}
-		}
+		performKeyboard(msg.message);
 		break;
 	case 'getSetting':
 		app.activeBrowserWindow.activeTab.page.dispatchMessage('returnSetting', {key:msg.message, value:ext.settings.getItem(msg.message),});
@@ -178,6 +166,23 @@ function openModal(type) {
 	tab.page.dispatchMessage('openModal', type);
 }
 
+function performKeyboard(keyPressed) {
+	// If a keyword's shortcut is pressed, show bar and fill keyword
+	var keyword;
+	store.each(function(data) {
+		if (keyPressed == data.shortcut) {
+			keyword = data.keyword;
+		}
+	})
+	if (keyPressed == ext.settings.shortcut || keyword != undefined) {
+		if (ext.settings.keyboardShortcutAction == 'toolbar') {
+			focusBar(keyword);
+		} else {
+			app.activeBrowserWindow.activeTab.page.dispatchMessage('openModalSearch', keyword);
+		}
+	}
+}
+
 function handleKeydown(e) {
 	k = parseInt(e.keyIdentifier.replace('U+',''), 16);
 	if(e.which == 27)
@@ -192,6 +197,15 @@ function handleKeypress(e) {
 	shortcut += e.metaKey  * 1000000;
 	if(shortcut == ext.settings.shortcut) {
 		safari.self.hide();
+	} else {
+		store.each(function(data) {
+			if (shortcut == data.shortcut) {
+				var searchField = $('keywordSearchField');
+				var query = searchField.value.substr(searchField.value.split(' ')[0].length);
+				searchField.value = data.keyword+query;
+				searchField.focus();
+			}
+		})
 	}
 }
 

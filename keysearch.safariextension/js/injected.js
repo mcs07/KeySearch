@@ -9,7 +9,7 @@ function handleMessage(msg) {
 		closeModal();
 		break;
 	case 'openModalSearch':
-		openModalSearch();
+		openModalSearch(msg.message);
 		break;
 	case 'queryParsed':
 		$('_____subText').textContent = msg.message.subtext;
@@ -80,9 +80,16 @@ function openModal(type) {
 	previewContainer.inject($(document.body)).set('tween', {duration: 300}).fade('in');
 }
 
-function openModalSearch() {
+function openModalSearch(keyword) {
 	if (open == 'search') {
-		closeModal();
+		if (keyword) {
+			var searchField = $('_____keywordSearchField');
+			var query = searchField.value.substr(searchField.value.split(' ')[0].length);
+			searchField.value = keyword+query;
+			searchField.focus();
+		} else {
+			closeModal();
+	   	}
 	   	return;
    	}
 	if (open != 'none') {
@@ -107,6 +114,8 @@ function openModalSearch() {
 	}).inject(previewContainer, 'top');
 	previewContainer.inject($(document.body)).set('tween', {duration: 150}).fade('in').get('tween').chain(function() {
 		keywordSearchField.focus();
+		if(keyword)
+			keywordSearchField.value = keyword+' ';
 	});
 }
 

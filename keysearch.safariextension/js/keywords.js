@@ -307,7 +307,7 @@ const ext  = safari.extension;
 window.addEvent('domready', pageLoaded, false);
 window.addEventListener("keyup", handleKeyup, false);
 
-/**
+/*
  * This file contains code based upon code in the 
  * User CSS Safari Extension by  Kridsada Thanabulpong,
  * which is released under the MIT license
