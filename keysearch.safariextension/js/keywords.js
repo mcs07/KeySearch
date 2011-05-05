@@ -13,11 +13,20 @@ function pageLoaded() {
 	actionButton.selectedIndex = -1;
 	plusButton.addEvent('click', function(event) {
 		markCurrent($('new'));
+		$$('aside')[0].scrollTop = $$('aside')[0].scrollHeight;
 		bindNewForm();
 	});
 	plusButton.fireEvent('click');
 	actionButton.addEvent('click', function(event) {
 		safari.self.tab.dispatchMessage('openModalFromModal', this.options[this.selectedIndex].value);
+	});
+	$('helpButton').addEvents({
+		mouseover: function(){
+			$('urlTip').set('tween', {duration: 200}).fade('in');
+		},
+		mouseout: function(){
+			$('urlTip').set('tween', {duration: 200}).fade('out');
+		}
 	});
 }
 

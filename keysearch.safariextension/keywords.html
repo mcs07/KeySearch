@@ -44,10 +44,14 @@
 					<p class="keywords">
 						<label for="url" class="keywords">URL:</label>
 						<input name="url" type="text" onKeyup="validateForm()" />
-						<span id="urlDescription" class="description">
-							An address with @@@ in place of the search query
-						</span>
+						<span id="helpButton">?</span>
 					</p>
+					<div id="urlTip" class="tooltip" style="opacity:0">
+						<div class="tipOuter">
+							<div class="tipInner"></div>
+						</div>
+						A URL with @@@ in place of the query
+					</div>
 					<p class="keywords">
 						<label for="shortcutDisplay" class="keywords">Shortcut:</label>
 			 			<input id="shortcutDisplay" class="shortcutDisplay" name="shortcutDisplay" type="search" onKeyPress="shortcutKeypress(event)" onKeyDown="shortcutKeydown(event)" onClick="this.select()" onFocus="shortcutFocus(this)" onBlur="shortcutBlur(this)">
