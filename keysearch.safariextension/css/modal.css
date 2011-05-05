@@ -16,7 +16,8 @@ body {
 }
 
 body.keywords {width: 700px; height: 400px; margin-left: -350px; margin-top: -200px; position: relative;}
-body.settings, body.import, body.export {width: 500px; height: 340px; margin-left: -250px; margin-top: -170px;}
+body.settings {width: 500px; height: 300px; margin-left: -250px; margin-top: -150px;}
+body.import, body.export {width: 500px; height: 340px; margin-left: -250px; margin-top: -170px;}
 body.add {width: 500px; height: 200px; margin-left: -250px; margin-top: -100px;}
 
 header {
@@ -68,7 +69,7 @@ section fieldset {
 }
 
 section fieldset p.keywords {margin: 16px 0 16px 100px;}
-section fieldset p.settings {margin: 13px 0 13px 220px;}
+section fieldset p.settings {margin: 16px 0 16px 220px;}
 section fieldset p.add {margin: 10px 0px 10px 180px;}
 
 section fieldset label {

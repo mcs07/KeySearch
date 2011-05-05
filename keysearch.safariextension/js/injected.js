@@ -50,6 +50,8 @@ function openModal(type) {
 		var width=500, height=200;
 		break;
 	case 'settings':
+		var width=500, height=300;
+		break;
 	case 'import':
 	case 'export':
 		var width=500, height=340;
