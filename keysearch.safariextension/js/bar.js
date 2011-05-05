@@ -16,9 +16,15 @@ function init() {
 		break;
 	case (version < 151): // Upgrading from 1.5.1 or lower
 		//store.addItem('!','Open URL','http://@@@',true);
+		var oldShortcut  = ext.settings.keyboardShortcut.charCodeAt(0);
+		oldShortcut += (ext.settings.useShift == 'useShift')     * 1000;
+		oldShortcut += (ext.settings.useControl == 'useControl') * 10000;
+		oldShortcut += (ext.settings.useOption == 'useOption')   * 100000;
+		oldShortcut += (ext.settings.useCommand == 'useCommand') * 1000000;
+		ext.settings.shortcut = oldShortcut;
 		//app.openBrowserWindow();
 		//app.activeBrowserWindow.activeTab.url = 'http://www.macosxtips.co.uk/keysearch/welcome?t=151';
-		// migrate old shortcut system to new one
+
 		break;
 	}
 	ext.settings.version = 151;
