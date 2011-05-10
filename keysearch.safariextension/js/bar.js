@@ -2,6 +2,7 @@ function init() {
 	var version = ext.settings.version;
 	switch (true) {
 	case (version == undefined): // New installation
+		_gaq.push(['_trackEvent', 'Install', 'New']);
 		store.addItem('wiki','Wikipedia','http://en.wikipedia.org/w/index.php?search=@@@',true);
 		store.addItem('!','Open URL','http://@@@',true);
 		store.addItem('amazon','Amazon','http://www.amazon.com/s/ref=nb_sb_noss?field-keywords=@@@&url=search-alias%3Daps&tag=moxt-20',true);
@@ -12,18 +13,15 @@ function init() {
 		store.addItem('imdb','IMDb','http://www.imdb.com/find?s=all&q=@@@',true);
 		store.addItem('youtube','YouTube','http://www.youtube.com/results?search_query=@@@',true);
 		store.addItem('fb','FaceBook','https://www.facebook.com/search.php?q=@@@',true);
-		app.openBrowserWindow();
-		app.activeBrowserWindow.activeTab.url = 'http://www.macosxtips.co.uk/keysearch/welcome?t=n';
 		break;
 	case (version < 151): // Upgrading from 1.5.1 or lower
+		_gaq.push(['_trackEvent', 'Install', '<151']);
 		var oldShortcut  = ext.settings.keyboardShortcut.charCodeAt(0);
 		oldShortcut += (ext.settings.useShift == 'useShift')     * 1000;
 		oldShortcut += (ext.settings.useControl == 'useControl') * 10000;
 		oldShortcut += (ext.settings.useOption == 'useOption')   * 100000;
 		oldShortcut += (ext.settings.useCommand == 'useCommand') * 1000000;
 		ext.settings.shortcut = oldShortcut;
-		//app.openBrowserWindow();
-		//app.activeBrowserWindow.activeTab.url = 'http://www.macosxtips.co.uk/keysearch/welcome?t=151';
 		break;
 	}
 	ext.settings.version = 151;
@@ -236,6 +234,14 @@ function searchKeydown(e) {
 
 const app = safari.application,
 	  ext  = safari.extension;
+var _gaq = _gaq || [];
+	_gaq.push(['_setAccount', 'UA-125911-9']);
+	_gaq.push(['_trackPageview']);
+(function() {
+	var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	ga.src = 'https://ssl.google-analytics.com/ga.js';
+	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
 app.addEventListener('command', performCommand, false);
 app.addEventListener('validate', validateCommand, false);
 app.activeBrowserWindow.addEventListener('message', handleMessage, false);

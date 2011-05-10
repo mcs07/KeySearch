@@ -52,6 +52,15 @@ function handleKeyup(e) {
 		safari.self.tab.dispatchMessage('closeBox');
 }
 
+var data = new Object();
+var _gaq = _gaq || [];
+	_gaq.push(['_setAccount', 'UA-125911-9']);
+	_gaq.push(['_trackPageview']);
+(function() {
+	var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	ga.src = 'https://ssl.google-analytics.com/ga.js';
+	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
 window.addEvent('domready', pageLoaded, false);
 window.addEventListener('keyup', handleKeyup, false);
-var data = new Object();
+

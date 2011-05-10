@@ -9,9 +9,11 @@ function handleMessage(msg) {
 	if (msg.name == 'returnSetting') {
 		if (msg.message.key == 'shortcut') {
 			$('keyboardShortcut').value = parseShortcut(msg.message.value);
+			_gaq.push(['_trackEvent', 'Shortcut', msg.message.value]);
 		} else {
 			$(msg.message.value).checked = true;
-		}   
+			_gaq.push(['_trackEvent', 'Setting', msg.message.value]);
+		}
 	}
 }
 
@@ -63,6 +65,14 @@ function handleKeydown(e) {
 		safari.self.tab.dispatchMessage('closeBox');
 }
 
+var _gaq = _gaq || [];
+	_gaq.push(['_setAccount', 'UA-125911-9']);
+	_gaq.push(['_trackPageview']);
+(function() {
+	var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	ga.src = 'https://ssl.google-analytics.com/ga.js';
+	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
 safari.self.addEventListener('message', handleMessage, false);
 window.addEvent('domready', pageLoaded);
 window.addEventListener('keydown', handleKeydown);
