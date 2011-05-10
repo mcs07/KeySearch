@@ -12,8 +12,8 @@ function init() {
 		store.addItem('imdb','IMDb','http://www.imdb.com/find?s=all&q=@@@',true);
 		store.addItem('youtube','YouTube','http://www.youtube.com/results?search_query=@@@',true);
 		store.addItem('fb','FaceBook','https://www.facebook.com/search.php?q=@@@',true);
-		//app.openBrowserWindow();
-		//app.activeBrowserWindow.activeTab.url = 'http://www.macosxtips.co.uk/keysearch/welcome?t=n';
+		app.openBrowserWindow();
+		app.activeBrowserWindow.activeTab.url = 'http://www.macosxtips.co.uk/keysearch/welcome?t=n';
 		break;
 	case (version < 151): // Upgrading from 1.5.1 or lower
 		var oldShortcut  = ext.settings.keyboardShortcut.charCodeAt(0);

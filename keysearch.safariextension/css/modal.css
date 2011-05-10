@@ -185,7 +185,7 @@ aside a.delete {
 	text-indent: -1000px;
 }
 
-aside li:hover a.delete {
+aside li:hover a.delete, .current + a.delete {
     display: block;
 }
 
