@@ -194,7 +194,7 @@ aside a.delete:hover {
 }
 
 aside .delete[href="#deletedefault"] {
-	display: none;
+	display: none !important;
 }
 
 aside #new {

@@ -1,8 +1,8 @@
 function pageLoaded() {
-	safari.self.tab.dispatchMessage('getSetting', 'keyboardShortcutAction');
-	safari.self.tab.dispatchMessage('getSetting', 'afterSearch');
-	safari.self.tab.dispatchMessage('getSetting', 'resultsType');
-	safari.self.tab.dispatchMessage('getSetting', 'shortcut');
+	safari.application.dispatchMessage('getSetting', 'keyboardShortcutAction');
+	safari.application.dispatchMessage('getSetting', 'afterSearch');
+	safari.application.dispatchMessage('getSetting', 'resultsType');
+	safari.application.dispatchMessage('getSetting', 'shortcut');
 }
 
 function handleMessage(msg) {

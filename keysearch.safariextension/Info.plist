@@ -4,6 +4,8 @@
 <dict>
 	<key>Author</key>
 	<string>Matt Swain</string>
+	<key>Builder Version</key>
+	<string>6534.42</string>
 	<key>CFBundleDisplayName</key>
 	<string>KeySearch</string>
 	<key>CFBundleIdentifier</key>
@@ -11,9 +13,9 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.5.1b</string>
+	<string>1.5.1</string>
 	<key>CFBundleVersion</key>
-	<string>1.5.1b</string>
+	<string>1.5.1</string>
 	<key>Chrome</key>
 	<dict>
 		<key>Bars</key>
@@ -51,8 +53,12 @@
 				<string>images/toolbar.png</string>
 				<key>Label</key>
 				<string>KeySearch</string>
+				<key>Menu</key>
+				<string></string>
 				<key>Palette Label</key>
 				<string>KeySearch</string>
+				<key>Popover</key>
+				<string></string>
 				<key>Tool Tip</key>
 				<string>Toggle KeySearch Bar</string>
 			</dict>
