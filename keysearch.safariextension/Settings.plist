@@ -4,15 +4,13 @@
 <array>
 	<dict>
 		<key>DefaultValue</key>
-		<false/>
+		<real>10083</real>
 		<key>Key</key>
-		<string>hidden</string>
+		<string>shortcut</string>
 	</dict>
 	<dict>
-		<key>DefaultValue</key>
-		<string>toolbar</string>
 		<key>Key</key>
-		<string>keyboardShortcutAction</string>
+		<string>version</string>
 	</dict>
 	<dict>
 		<key>DefaultValue</key>
@@ -22,65 +20,19 @@
 	</dict>
 	<dict>
 		<key>DefaultValue</key>
-		<string>toolbarStays</string>
+		<string>popover</string>
 		<key>Key</key>
-		<string>afterSearch</string>
-	</dict>
-	<dict>
-		<key>DefaultValue</key>
-		<true/>
-		<key>Key</key>
-		<string>firstRun</string>
-	</dict>
-	<dict>
-		<key>Key</key>
-		<string>version</string>
-	</dict>
-	<dict>
-		<key>DefaultValue</key>
-		<string>S</string>
-		<key>Key</key>
-		<string>keyboardShortcut</string>
-	</dict>
-	<dict>
-		<key>DefaultValue</key>
-		<string>useControl</string>
-		<key>Key</key>
-		<string>useControl</string>
-	</dict>
-	<dict>
-		<key>DefaultValue</key>
-		<string>dontUse</string>
-		<key>Key</key>
-		<string>useOption</string>
-	</dict>
-	<dict>
-		<key>DefaultValue</key>
-		<string>dontUse</string>
-		<key>Key</key>
-		<string>useCommand</string>
-	</dict>
-	<dict>
-		<key>DefaultValue</key>
-		<string>dontUse</string>
-		<key>Key</key>
-		<string>useShift</string>
+		<string>shortcutAction</string>
 	</dict>
 	<dict>
 		<key>Title</key>
-		<string>Access settings through the KeySearch toolbar</string>
+		<string>Access settings by clicking the KeySearch button</string>
 		<key>Type</key>
 		<string>Group</string>
 	</dict>
 	<dict>
 		<key>Type</key>
 		<string>Separator</string>
-	</dict>
-	<dict>
-		<key>DefaultValue</key>
-		<real>10083</real>
-		<key>Key</key>
-		<string>shortcut</string>
 	</dict>
 </array>
 </plist>

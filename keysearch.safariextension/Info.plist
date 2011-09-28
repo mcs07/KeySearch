@@ -5,7 +5,7 @@
 	<key>Author</key>
 	<string>Matt Swain</string>
 	<key>Builder Version</key>
-	<string>6534.42</string>
+	<string>7534.48.3</string>
 	<key>CFBundleDisplayName</key>
 	<string>KeySearch</string>
 	<key>CFBundleIdentifier</key>
@@ -13,22 +13,11 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.5.1</string>
+	<string>2.0beta</string>
 	<key>CFBundleVersion</key>
-	<string>1.5.1</string>
+	<string>1.999</string>
 	<key>Chrome</key>
 	<dict>
-		<key>Bars</key>
-		<array>
-			<dict>
-				<key>Filename</key>
-				<string>bar.html</string>
-				<key>Identifier</key>
-				<string>keywordSearchBar</string>
-				<key>Label</key>
-				<string>KeySearch</string>
-			</dict>
-		</array>
 		<key>Context Menu Items</key>
 		<array>
 			<dict>
@@ -37,30 +26,41 @@
 				<key>Identifier</key>
 				<string>keySearchContext</string>
 				<key>Title</key>
-				<string>Create keyword for this search</string>
+				<string>Create a keyword for this search</string>
 			</dict>
 		</array>
-		<key>Database Quota</key>
-		<real>5242880</real>
+		<key>Global Page</key>
+		<string>global.html</string>
+		<key>Popovers</key>
+		<array>
+			<dict>
+				<key>Filename</key>
+				<string>search.html</string>
+				<key>Height</key>
+				<real>500</real>
+				<key>Identifier</key>
+				<string>keySearchPopover</string>
+				<key>Width</key>
+				<real>800</real>
+			</dict>
+		</array>
 		<key>Toolbar Items</key>
 		<array>
 			<dict>
 				<key>Command</key>
-				<string>keySearchButton</string>
+				<string></string>
 				<key>Identifier</key>
 				<string>keySearchButton</string>
 				<key>Image</key>
 				<string>images/toolbar.png</string>
 				<key>Label</key>
 				<string>KeySearch</string>
-				<key>Menu</key>
-				<string></string>
 				<key>Palette Label</key>
 				<string>KeySearch</string>
 				<key>Popover</key>
-				<string></string>
+				<string>keySearchPopover</string>
 				<key>Tool Tip</key>
-				<string>Toggle KeySearch Bar</string>
+				<string>KeySearch</string>
 			</dict>
 		</array>
 	</dict>
@@ -74,12 +74,12 @@
 			</array>
 			<key>Start</key>
 			<array>
-				<string>js/mootools.js</string>
+				<string>js/jquery-1.6.1.min.js</string>
 			</array>
 		</dict>
 	</dict>
 	<key>Description</key>
-	<string>Use keywords to search any site from the toolbar</string>
+	<string>Use keywords to quickly search any site from the toolbar</string>
 	<key>ExtensionInfoDictionaryVersion</key>
 	<string>1.0</string>
 	<key>Permissions</key>

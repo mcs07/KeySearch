@@ -1,350 +1,470 @@
-function pageLoaded() {
-	store.upgrade();
-	store.each(addLi);
+$(function() {
+	Store.upgrade();
+	Store.each(addToList);
 	sortList(0);
-	$('buttonContainer').set('styles', {backgroundImage: 'url('+ext.baseURI+'images/buttonBack.png)'});
-	$('enabledBack').set('styles', {background: 'url('+ext.baseURI+'images/switch.png) 0px 0px'});
-	$('enabled').set('styles', {background: 'url('+ext.baseURI+'images/switchContainer.png) 0px 0px'});
-	$$('.ksCheckBox').set('styles', {backgroundImage: 'url('+ext.baseURI+'images/shortcutkeys.png)'});
-	const plusButton = $('plusButton'),
-		  actionButton = $('actionButton');
-	plusButton.set('styles', {backgroundImage: 'url('+ext.baseURI+'images/plus.png)'});
-	actionButton.set('styles', {backgroundImage: 'url('+ext.baseURI+'images/action.png)'});
-	actionButton.selectedIndex = -1;
-	plusButton.addEvent('click', function(event) {
-		markCurrent($('new'));
-		$$('aside')[0].scrollTop = $$('aside')[0].scrollHeight;
+	$('#enabled').iphoneStyle({resizeContainer: false, resizeHandle: false});
+	$('#plusButton').click(function() {
+		markCurrent($('#new'));
+		$('nav').prop('scrollTop', $('nav').prop('scrollHeight'));
 		bindNewForm();
+	}).click();
+	$('#actionButton').prop('selectedIndex', -1).click(function() {
+		Pop.transition($(this).val());
 	});
-	plusButton.fireEvent('click');
-	actionButton.addEvent('click', function(event) {
-		safari.self.tab.dispatchMessage('openModalFromModal', this.options[this.selectedIndex].value);
-	});
-	$('helpButton').addEvents({
-		mouseover: function(){
-			$('urlTip').set('tween', {duration: 200}).fade('in');
-		},
-		mouseout: function(){
-			$('urlTip').set('tween', {duration: 200}).fade('out');
+	$('form input').bind('keyup change', validate);
+	$('#keyword').blur(function() {
+		var name = $('#name');
+		if (!name.val()) {
+			name.val($(this).val());
 		}
 	});
-}
+	Pop.shortcutInit();
+});
 
-function addLi(data) {
-	var key = data.keyword;
-	const ul = $('list');
-	var li = new Element('li', {id: 'item-'+key}),
-		link = new Element('a', {
-			'class': 'selector' + (data.enabled ? '' : ' disabled'),
-			href: '#'+key,
-			text: nameTrunc(data.name),
-			events: {
-				click: function(event){
-					markCurrent(this);
-					var data = store.getItem(this.getAttribute('href').substr(1));
-					bindEditForm(data);
-				}
-			}
-		}),
-		deleteLink = new Element('a', {
-			'class': 'delete',
-			href: '#delete'+key,
-			text: '[delete]',
-			events: {
-				click: function(event){
-					var li = this.getParent(),
-						link = this.getPrevious();
-					if (link.hasClass('current')) {
-						var prev = li.getPrevious(),
-							next = li.getNext(),
-							target = $('plusButton');
-						if (next) {
-							target = next.getChildren('a')[0];
-						} else if (prev) {
-							target = prev.getChildren('a')[0];
-						}
-						target.fireEvent('click');
+function addToList(data) {
+	$('ul').append(
+		$('<li id="item-'+data.keyword+'">').append(
+			$('<a class="listLink'+(data.enabled?'':' disabled')+'" href="#'+data.keyword+'">'+data.name+'</a>').click(function() {
+				markCurrent($(this));
+				var data = Store.getItem($(this).attr('href').substr(1));
+				bindEditForm(data);
+			}),
+			$('<a class="delete" href="#'+data.keyword+'">[delete]</a>').click(function(){
+				var li = $(this).parent(),
+					link = $(this).prev();
+				if (link.hasClass('current')) {
+					var prev = li.prev(),
+						next = li.next(),
+						target = $('#plusButton');
+					if (next[0]) {
+						target = next.children('a').eq(0);
+					} else if (prev[0]) {
+						target = prev.children('a').eq(0);
 					}
-					li.fade('out').get('tween').chain(function() {
-						li.destroy();
-					});
-					store.removeItem(this.getAttribute('href').substr(7));
+					target.click();
 				}
-			}
-		});
-	li.grab(link).grab(deleteLink).inject(ul);
-	return li;
+				li.fadeOut(400, function() {
+					li.remove();
+				}); 
+				Store.removeItem($(this).attr('href').substr(1));
+			})
+		)
+	)
 }
 
 function bindEditForm(data) {
-	setTitle('Editing Keyword: '+data.keyword)
-	const form = $('form');
-	form.keyword.set('value', data.keyword);
-	form.name.set('value', data.name);
-	form.url.set('value', data.url);
-	form.shortcut.set('value', data.shortcut);
-	form.enabled.getParent().set('styles', {display: 'block'});
-	if (form.enabled.checked != data.enabled) {
-		form.enabled.set('checked', data.enabled);
-		switchVisual(form.enabled, 0);
-	}
+	const form = dataToForm(data);
+	$('.iPhoneCheckContainer').show();
+	$('#keyword').width(200);
+	$('#save').attr('disabled', true);
 	if (data.keyword == 'default') {
-		form.keyword.disabled = true;
-		form.name.disabled = true;
-		form.shortcutDisplay.disabled = true;
+		$('#name, #keyword, #shortcut').attr('disabled', true);
 	} else {
-		form.keyword.disabled = false;
-		form.name.disabled = false;
-		form.shortcutDisplay.disabled = false;
+		$('#name, #keyword, #shortcut').attr('disabled', false);
 	}
-	form.save.disabled = false;
-	refreshShortcut();
-	validateForm();
-	
-	var oldKey = data.keyword;
-	form.removeEvents('submit');
-	form.addEvent('submit', function(event){
-		event.stop();
-		data = constructDataFromForm(this);
-		if (data.keyword && data.url) {
-			store.removeItem(oldKey);
-			store.setItem(data);
-			key = data.keyword;
-			li = $('item-'+oldKey);
-			li.id = 'item-'+key;
-			link = li.getChildren('a')[0];
-			link.set('text', nameTrunc(data.name));
-			link.set('href', '#'+key);
-			link.removeClass('disabled');
-			if (!data.enabled)
-				link.addClass('disabled');
-			deleteLink = li.getChildren('a')[1];
-			deleteLink.set('href', '#delete'+key);			
-			setTitle('Editing Keyword: '+key);
-			sortList(1000);
-		}
-	});
+	Pop.displayShortcut();
+	validate();
+ 	var oldKey = data.keyword;
+ 	form.unbind('submit').bind('submit', function(){
+ 		data = formToData(this);
+ 		if (data.keyword && data.url) {
+ 			Store.removeItem(oldKey);
+ 			Store.setItem(data);
+ 			key = data.keyword;
+ 			var li = $('#item-'+oldKey);
+ 			li.attr('id', 'item-'+key);
+ 			var link = li.children('a').eq(0);
+ 			link.text(data.name);
+ 			link.attr('href', '#'+key);
+ 			link.removeClass('disabled');
+ 			if (!data.enabled)
+ 				link.addClass('disabled');
+ 			deleteLink = li.children('a').eq(1);
+ 			deleteLink.attr('href', '#'+key);			
+ 			oldKey = key;
+ 			sortList(1000);
+ 		}
+ 		return false;
+ 	});
 }
 
 function bindNewForm() {
-	setTitle('New Keyword');
-	const form = $('form');
-	form.keyword.set('value', '');
-	form.name.set('value', '');
-	form.url.set('value', '');
-	form.shortcut.set('value', '');
-	form.enabled.set('checked', true);
-	form.enabled.getParent().set('styles', {display: 'none'});
-	switchVisual(form.enabled, 0)
-	form.save.disabled = true;
-	form.name.disabled = false;
-	form.keyword.disabled = false;
-	form.shortcutDisplay.disabled = false;
-	refreshShortcut();
-	validateForm();
-	
-	form.removeEvents('submit');
-	form.addEvent('submit', function(event){
-		event.stop();
-		var data = constructDataFromForm(this);
+	const form = $('form'),
+		  enabled = $('#enabled');
+	form[0].reset();
+	$('#save').attr('disabled', true);
+	$('#name, #keyword, #shortcut').attr('disabled', false);
+	enabled.prop('checked', true).change();
+	$('.iPhoneCheckContainer').hide();
+	$('#keyword').width(296);
+	Pop.displayShortcut();
+	validate();
+	form.unbind('submit').bind('submit', function(){
+		var data = formToData(this);
 		if (data.keyword && data.url) {
-			store.setItem(data);
-			var li = addLi(data);
-			li.getChildren('a')[0].fireEvent('click');
+			Store.setItem(data);
+			addToList(data);
+			$('#item-'+data.keyword).children('a').eq(0).click();
 			sortList(1000);
 		}
+		return false;
 	});
-}
-
-function setTitle(title) {
-	$('title').set('text', title);
-}
-
-function nameTrunc(name) {
-	if (name.length > 22) {
-		name = name.substr(0,20).replace(/^\s+|\s+$/g,'') + '...';
-	}
-	return name;
 }
 
 function markCurrent(element) {
-	$$('.current').each(function(c){
-		c.removeClass('current');
-	});
-	if (typeof element === 'string')
-		element = $('item-'+element).getChildren('a')[0];
+	$('.current').removeClass('current');
 	element.addClass('current');
 }
 
-function constructDataFromForm(form) {
-	return {
-		keyword: form.keyword.value.split(' ').join(''),
-		name: (form.name.value == '') ? form.keyword.value : form.name.value,
-		url: form.url.value,
-		enabled: form.enabled.checked,
-		shortcut: form.shortcut.value
-	}
+function formToData(form) {
+	var data = {};
+	$(':input', form).not('#save, #shortcutDisplay').each(function(i, n) {
+		if (n.type == 'checkbox') {
+			data[n.name] = $(n).prop('checked');
+		} else {
+			data[n.name] = $(n).val();
+		}
+	});
+	return data;
+}
+
+function dataToForm(data) {
+	const form = $('form');
+	$.each(data, function(i, n) {
+		var el = $('#'+i);
+		if (el.attr('type') == 'checkbox') {
+			console.log(el.prop('checked'));
+			console.log(n);
+			if (el.prop('checked') != n) {
+				console.log('need to change');
+				el.prop('checked', !el.is(':checked')).change();
+			}
+		} else {
+			el.val(n);
+		}
+	});
+	return form;
 }
 
 function sortList(dur) {
-	var names = $$('li .selector').get('text');
-	var liArray = new Array();
-	for (var i=0; i < names.length; i++) {
-		item = {pos: i, name: names[i]}
-		liArray.push(item);
-	}
+	var liArray = [];
+	$('aside li').each(function(i,n) {
+ 		liArray.push({pos:i, el:n, name:$(n).children().eq(0).text().toLowerCase()});
+ 	});
 	liArray.sort(function(a, b){
-		var nameA=a.name.toLowerCase(), nameB=b.name.toLowerCase();
-		if (a.name == 'default')
-			return -1 
-		if (b.name == 'default')
-			return 1
-		if (nameA < nameB)
-			return -1 
-		if (nameA > nameB)
-			return 1
-		return 0
-	});
-	var newOrder = new Array();
-	for (var i=0; i < liArray.length; i++) {
-		newOrder[i] = liArray[i].pos;
-	}
-	var mysort = new Fx.Sort($$('aside li'), {
-		duration: dur
-	});
-	mysort.sort(newOrder).chain(function() {
-		mysort.rearrangeDOM();
+ 		var nameA=a.name, nameB=b.name;
+ 		if (nameA == 'default')
+ 			return -1; 
+ 		if (nameB == 'default')
+ 			return 1;
+ 		return (nameA < nameB) ? -1 : (nameA > nameB) ? 1 : 0;
+ 	});
+ 	var newOrder = [];
+ 	var newUl = $('<ul />');
+ 	$.each(liArray, function(i, n) {
+ 		newOrder.push(n.pos);
+ 		newUl.append(n.el);
+ 	});
+ 	$('ul').replaceWith(newUl);
+
+	$.each(newOrder, function(oldPos, newPos) {
+		var el = $('li:nth-child('+(oldPos+1)+')');
+		el.css({'top':(newPos-oldPos)*el.outerHeight()+'px'});
+		el.animate({
+			top: '0px'
+		}, dur);
 	});
 }
 
-function validateForm() {
-	const form = $('form'),
-		  desc = $('keywordDescription');
-
-	if (!form.keyword.value) {
-		form.save.disabled = true;
-		desc.textContent = '';
-		return;
-	}
-	if (store.getItem(form.keyword.value) && form.keyword.value != $$('.current')[0].getAttribute('href').substr(1)) {
-		desc.textContent = 'Keyword must be unique';
-		form.save.disabled = true;
-		return;
-	}
-	if (form.keyword.value.split(' ')[1]) {
-		desc.textContent = 'Keyword must be a single word';
-		form.save.disabled = true;
-		return;
-	}
-	if (form.keyword.value.substr(0,1) == '>') {
-		desc.textContent = 'Keyword must not start with >';
-		form.save.disabled = true;
-		return;
-	}
-	desc.textContent = '';
-
-	if (!form.keyword.value || !form.url.value) {
-		form.save.disabled = true;
-		return;
-	}
-	form.save.disabled = false;
-	
-}
-
-function setName(form) {
-	if (form.name.value == '') {
-		form.name.value = form.keyword.value;
-	}
-}
-
-function switchVisual(enabled, dur) {
-	enabledBack = enabled.getParent();
-	enabledBack.set('tween', {
-		property: 'background-position',
-		duration: dur
-	});
-	if (enabled.get('checked') == true) {
-		enabledBack.tween('0px 0px');
+function validate() {
+	const keyword = $('#keyword').val(),
+		  url = $('#url').val(),
+		  save = $('#save'),
+		  error = $('#error');
+	if (!keyword || !url) {
+		save.attr('disabled', true);
+		error.text('');
+	} else if (keyword.indexOf(' ') != -1) {
+		error.text('Keyword must not contain spaces');
+		save.attr('disabled', true);
+	} else if (keyword.substr(0,1) == '>') {
+		error.text('Keyword must not start with >');
+		save.attr('disabled', true);
+	} else if (Store.getItem(keyword) && keyword != $('.current').attr('href').substr(1)) {
+		error.text('Keyword must be unique');
+		save.attr('disabled', true);
 	} else {
-		enabledBack.tween('-53px 0px');
+		error.text('');
+		save.attr('disabled', false);
 	}
-}
-
-function switchChange(enabled) {
-	switchVisual(enabled, 400);
-	var current = $$('.current')[0];
-	data = store.getItem(current.getAttribute('href').substr(1));
-	data.enabled = enabled.get('checked');
-	store.setItem(data);
-	current.removeClass('disabled');
-	if (!data.enabled)
-		current.addClass('disabled');
-}
-
-function shortcutKeydown(e) {
-	keyPressed =  parseInt(e.keyIdentifier.replace('U+',''), 16);
-}
-
-function shortcutKeypress(e) {
-	shortcut  = keyPressed;
-	shortcut += e.shiftKey * 1000;
-	shortcut += e.ctrlKey  * 10000;
-	shortcut += e.altKey   * 100000;
-	shortcut += e.metaKey  * 1000000;
-	e.srcElement.getNext().value = shortcut;
-	refreshShortcut();
-	e.target.blur();
-}
-
-function shortcutFocus(field) {
-	field.set('styles', {color:'#888'});
-	if (!field.value)
-		field.value = 'Type Shortcut';
-}
-
-function shortcutBlur(field) {
-	field.set('styles', {color:'#000'});
-	if (field.value == 'Type Shortcut')
-		field.value = '';
-}
-
-function refreshShortcut() {
-	shortcut = ('0000000'+$('shortcut').value.toString()).slice(-7);
-	var modCode = shortcut.substring(0,4),
-		keyString = '';
-	if (modCode.charAt(3) == 1) keyString += '⇧';
-	if (modCode.charAt(2) == 1) keyString += '⌃';
-	if (modCode.charAt(1) == 1) keyString += '⌥';
-	if (modCode.charAt(0) == 1) keyString += '⌘';
-	keyString += String.fromCharCode(parseInt(shortcut.substring(4),10));
-	$('shortcutDisplay').value = keyString;
 	
-	// Make keyString 'none' if shortcut is null?
+	// TODO: Check for keyword shortcut clash
+	// TODO: Don't allow keywords to start with @
 }
 
-function handleKeyup(e) {
-	if(e.which == 27)
-		safari.self.tab.dispatchMessage('closeBox');
+function setShortcut(shortcut) {
+	$('#shortcut').val(shortcut).blur();
 }
 
 const ext  = safari.extension;
-var _gaq = _gaq || [];
-	_gaq.push(['_setAccount', 'UA-125911-9']);
-	_gaq.push(['_trackPageview']);
-(function() {
-	var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-	ga.src = 'https://ssl.google-analytics.com/ga.js';
-	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-})();
-window.addEvent('domready', pageLoaded, false);
-window.addEventListener('keyup', handleKeyup, false);
 
-/*
- * This file contains code based upon code in the 
- * User CSS Safari Extension by  Kridsada Thanabulpong,
- * which is released under the MIT license
- * 
- * User CSS: http://code.grid.in.th/
- * MIT license: http://www.opensource.org/licenses/mit-license.php
- * 
- */
+// iPhone style checkbox jquery plugin
+(function() {
+  var iOSCheckbox;
+  iOSCheckbox = (function() {
+    function iOSCheckbox(elem, options) {
+      var key, opts, value;
+      this.elem = $(elem);
+      opts = $.extend({}, iOSCheckbox.defaults, options);
+      for (key in opts) {
+        value = opts[key];
+        this[key] = value;
+      }
+      this.wrapCheckboxWithDivs();
+      this.attachEvents();
+      this.disableTextSelection();
+      if (this.resizeHandle) {
+        this.optionallyResize('handle');
+      }
+      if (this.resizeContainer) {
+        this.optionallyResize('container');
+      }
+      this.initialPosition();
+    }
+    iOSCheckbox.prototype.isDisabled = function() {
+      return this.elem.is(':disabled');
+    };
+    iOSCheckbox.prototype.wrapCheckboxWithDivs = function() {
+      this.elem.wrap("<div class='" + this.containerClass + "' />");
+      this.container = this.elem.parent();
+      this.offLabel = $("<label class='" + this.labelOffClass + "'>\n  <span>" + this.uncheckedLabel + "</span>\n</label>").appendTo(this.container);
+      this.offSpan = this.offLabel.children('span');
+      this.onLabel = $("<label class='" + this.labelOnClass + "'>\n  <span>" + this.checkedLabel + "</span>\n</label>").appendTo(this.container);
+      this.onSpan = this.onLabel.children('span');
+      return this.handle = $("<div class='" + this.handleClass + "'>\n  <div class='" + this.handleRightClass + "'>\n    <div class='" + this.handleCenterClass + "' />\n  </div>\n</div>").appendTo(this.container);
+    };
+    iOSCheckbox.prototype.disableTextSelection = function() {
+      if ($.browser.msie) {
+        return $([this.handle, this.offLabel, this.onLabel, this.container]).attr("unselectable", "on");
+      }
+    };
+    iOSCheckbox.prototype.optionallyResize = function(mode) {
+      var newWidth, offLabelWidth, onLabelWidth;
+      onLabelWidth = this.onLabel.width();
+      offLabelWidth = this.offLabel.width();
+      if (mode === "container") {
+        newWidth = onLabelWidth > offLabelWidth ? onLabelWidth : offLabelWidth;
+        newWidth += this.handle.width() + this.handleMargin;
+        return this.container.css({
+          width: newWidth
+        });
+      } else {
+        newWidth = onLabelWidth > offLabelWidth ? onLabelWidth : offLabelWidth;
+        return this.handle.css({
+          width: newWidth
+        });
+      }
+    };
+    iOSCheckbox.prototype.onMouseDown = function(event) {
+      var x;
+      event.preventDefault();
+      if (this.isDisabled()) {
+        return;
+      }
+      x = event.pageX || event.originalEvent.changedTouches[0].pageX;
+      iOSCheckbox.currentlyClicking = this.handle;
+      iOSCheckbox.dragStartPosition = x;
+      return iOSCheckbox.handleLeftOffset = parseInt(this.handle.css('left'), 10) || 0;
+    };
+    iOSCheckbox.prototype.onDragMove = function(event, x) {
+      var newWidth, p;
+      if (iOSCheckbox.currentlyClicking !== this.handle) {
+        return;
+      }
+      p = (x + iOSCheckbox.handleLeftOffset - iOSCheckbox.dragStartPosition) / this.rightSide;
+      if (p < 0) {
+        p = 0;
+      }
+      if (p > 1) {
+        p = 1;
+      }
+      newWidth = p * this.rightSide;
+      this.handle.css({
+        left: newWidth
+      });
+      this.onLabel.css({
+        width: newWidth + this.handleRadius
+      });
+      this.offSpan.css({
+        marginRight: -newWidth
+      });
+      return this.onSpan.css({
+        marginLeft: -(1 - p) * this.rightSide
+      });
+    };
+    iOSCheckbox.prototype.onDragEnd = function(event, x) {
+      var p;
+      if (iOSCheckbox.currentlyClicking !== this.handle) {
+        return;
+      }
+      if (this.isDisabled()) {
+        return;
+      }
+      if (iOSCheckbox.dragging) {
+        p = (x - iOSCheckbox.dragStartPosition) / this.rightSide;
+        this.elem.prop('checked', p >= 0.5);
+      } else {
+        this.elem.prop('checked', !this.elem.prop('checked'));
+      }
+      iOSCheckbox.currentlyClicking = null;
+      iOSCheckbox.dragging = null;
+      return this.elem.change();
+    };
+    iOSCheckbox.prototype.onChange = function() {
+      var new_left;
+      if (this.isDisabled()) {
+        this.container.addClass(this.disabledClass);
+        return false;
+      } else {
+        this.container.removeClass(this.disabledClass);
+      }
+      new_left = this.elem.prop('checked') ? this.rightSide : 0;
+      this.handle.animate({
+        left: new_left
+      }, this.duration);
+      this.onLabel.animate({
+        width: new_left + this.handleRadius
+      }, this.duration);
+      this.offSpan.animate({
+        marginRight: -new_left
+      }, this.duration);
+      return this.onSpan.animate({
+        marginLeft: new_left - this.rightSide
+      }, this.duration);
+    };
+    iOSCheckbox.prototype.attachEvents = function() {
+      var localMouseMove, localMouseUp, self;
+      self = this;
+      localMouseMove = function(event) {
+        return self.onGlobalMove.apply(self, arguments);
+      };
+      localMouseUp = function(event) {
+        self.onGlobalUp.apply(self, arguments);
+        $(document).unbind('mousemove touchmove', localMouseMove);
+        return $(document).unbind('mouseup touchend', localMouseUp);
+      };
+      this.container.bind('mousedown touchstart', function(event) {
+        self.onMouseDown.apply(self, arguments);
+        $(document).bind('mousemove touchmove', localMouseMove);
+        return $(document).bind('mouseup touchend', localMouseUp);
+      });
+      return this.elem.bind("change", function() {
+        return self.onChange.apply(self, arguments);
+      });
+    };
+    iOSCheckbox.prototype.initialPosition = function() {
+      var offset;
+      this.offLabel.css({
+        width: this.container.width() - this.containerRadius
+      });
+      offset = this.containerRadius + 1;
+      if ($.browser.msie && $.browser.version < 7) {
+        offset -= 3;
+      }
+      this.rightSide = this.container.width() - this.handle.width() - offset;
+      if (this.elem.is(':checked')) {
+        this.handle.css({
+          left: this.rightSide
+        });
+        this.onLabel.css({
+          width: this.rightSide + this.handleRadius
+        });
+        this.offSpan.css({
+          marginRight: -this.rightSide
+        });
+      } else {
+        this.onLabel.css({
+          width: 0
+        });
+        this.onSpan.css({
+          marginLeft: -this.rightSide
+        });
+      }
+      if (this.isDisabled()) {
+        return this.container.addClass(this.disabledClass);
+      }
+    };
+    iOSCheckbox.prototype.onGlobalMove = function(event) {
+      var x;
+      if (!(!this.isDisabled() && iOSCheckbox.currentlyClicking)) {
+        return;
+      }
+      event.preventDefault();
+      x = event.pageX || event.originalEvent.changedTouches[0].pageX;
+      if (!iOSCheckbox.dragging && (Math.abs(iOSCheckbox.dragStartPosition - x) > this.dragThreshold)) {
+        iOSCheckbox.dragging = true;
+      }
+      return this.onDragMove(event, x);
+    };
+    iOSCheckbox.prototype.onGlobalUp = function(event) {
+      var x;
+      if (!iOSCheckbox.currentlyClicking) {
+        return;
+      }
+      event.preventDefault();
+      x = event.pageX || event.originalEvent.changedTouches[0].pageX;
+      return this.onDragEnd(event, x);
+    };
+    iOSCheckbox.defaults = {
+      duration: 200,
+      checkedLabel: 'ON',
+      uncheckedLabel: 'OFF',
+      resizeHandle: true,
+      resizeContainer: true,
+      disabledClass: 'iPhoneCheckDisabled',
+      containerClass: 'iPhoneCheckContainer',
+      labelOnClass: 'iPhoneCheckLabelOn',
+      labelOffClass: 'iPhoneCheckLabelOff',
+      handleClass: 'iPhoneCheckHandle',
+      handleCenterClass: 'iPhoneCheckHandleCenter',
+      handleRightClass: 'iPhoneCheckHandleRight',
+      dragThreshold: 5,
+      handleMargin: 15,
+      handleRadius: 4,
+      containerRadius: 5
+    };
+    return iOSCheckbox;
+  })();
+  $.iphoneStyle = this.iOSCheckbox = iOSCheckbox;
+  $.fn.iphoneStyle = function(options) {
+    var checkbox, _i, _len, _ref;
+    _ref = this.filter(':checkbox');
+    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+      checkbox = _ref[_i];
+      $(checkbox).data("iphoneStyle", new iOSCheckbox(checkbox, options));
+    }
+    return this;
+  };
+  $.fn.iOSCheckbox = function(options) {
+    var checkbox, opts, _i, _len, _ref;
+    if (options == null) {
+      options = {};
+    }
+    opts = $.extend({}, options, {
+      resizeHandle: false,
+      disabledClass: 'iOSCheckDisabled',
+      containerClass: 'iOSCheckContainer',
+      labelOnClass: 'iOSCheckLabelOn',
+      labelOffClass: 'iOSCheckLabelOff',
+      handleClass: 'iOSCheckHandle',
+      handleCenterClass: 'iOSCheckHandleCenter',
+      handleRightClass: 'iOSCheckHandleRight'
+    });
+    _ref = this.filter(':checkbox');
+    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+      checkbox = _ref[_i];
+      $(checkbox).data("iOSCheckbox", new iOSCheckbox(checkbox, opts));
+    }
+    return this;
+  };
+}).call(this);

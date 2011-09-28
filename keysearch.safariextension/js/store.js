@@ -1,4 +1,4 @@
-var store = {
+var Store = {
     
     getItem: function(key) {
         var jsonString = localStorage.getItem(key);
@@ -17,19 +17,19 @@ var store = {
     setCheckItem: function(data) {
     	if (localStorage.getItem(data.keyword) !== null)
     		return 0;
-        store.setItem(data);
+        Store.setItem(data);
         return 1;
     },
     
 	addItem: function(keyword, name, url, enabled) {
         var data = {keyword:keyword,name:name,url:url,enabled:enabled};
-        store.setItem(data);
+        Store.setItem(data);
         return;
     },
     
     addCheckItem: function(keyword, name, url, enabled) {
         var data = {keyword:keyword,name:name,url:url,enabled:enabled};
-        store.setCheckItem(data);
+        Store.setCheckItem(data);
         return;
     },
     
@@ -40,18 +40,21 @@ var store = {
     
     each: function(fn) {
     	for (var i=0; i < localStorage.length; i++) {
-        	var data = store.getItem(localStorage.key(i));
+        	var data = Store.getItem(localStorage.key(i));
             fn(data);
         }
         return;
     },
     
     upgrade: function() {
-        store.each(function(data) {
+        Store.each(function(data) {
 			if (!data.name) {
 				data.name = data.keyword;
-				store.setItem(data);
 			}
+			if (!data.shortcut) {
+				data.shortcut = '';
+			}
+			Store.setItem(data);
         });
         return;
     },

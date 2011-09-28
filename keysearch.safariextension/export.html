@@ -1,30 +1,30 @@
 <!DOCTYPE html>
-<html>
+<html class="export">
 	<head>
-		<link rel="stylesheet" href="css/modal.css" type="text/css" media="screen" />
-		<script type="text/javascript" src="js/mootools.js"></script>
+		<meta charset="utf-8">
+		<title>Export Keywords | KeySearch</title>
+		<link rel="stylesheet" href="css/popover.css">
+		<script type="text/javascript" src="js/jquery-1.6.1.min.js"></script>
 		<script type="text/javascript" src="js/store.js"></script>
+		<script type="text/javascript" src="js/popover.js"></script>
 		<script type="text/javascript" src="js/export.js"></script>
-		<title>Export Keywords</title>
-		<meta charset="utf-8" />
 	</head>
-	<body class="export">
+	<body>
 		<header>
 			<h1>Export Keywords</h1>
+			<button id="back">Back</button>
 		</header>
 		<section>
-			<form id="form" onSubmit="return false;">
-				<fieldset>
-					<p>
-						Use this text to create a backup of your Keywords.
-					</p>
-					<p>
-						Just copy and paste into a text editor to save.
-					</p>
-					<p>
-						<textarea id="data" onClick="selectAll()" class="export"></textarea>
-					</p>
-				</fieldset>
+			<form id="form">
+				<p>
+					Use this text to create a backup of your Keywords.
+				</p>
+				<p>
+					Just copy and paste into a text editor to save.
+				</p>
+				<p>
+					<textarea id="data" class="export"></textarea>
+				</p>
 			</form>
 		</section>
 	</body>

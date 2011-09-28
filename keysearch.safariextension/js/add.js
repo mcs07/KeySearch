@@ -1,66 +1,55 @@
-function pageLoaded() {
-	data = store.getItem('>temp');
-	store.removeItem('>temp');
+$(function() {
+	var keyword = $('#keyword'),
+		buttonSelect = $('#buttonSelect'),
+		save = $('#save'),
+		data = Store.getItem('>temp');
+	Store.removeItem('>temp');
 	for (i = 0; i<data.buttons.length; i++) {
-		var newOption = new Element('option', {
-			text: data.buttons[i].value
-		});
-		$('buttonSelect').add(newOption, null);
+		buttonSelect.append('<option>'+data.buttons[i].value+'</option>')
 	}
 	if (data.buttons.length > 1) {
-		$('dropDown').style.display = 'block';
+		$('#dropDown').show();
 	}
-	validateForm();
-}
-
-function submitKeyword() {
-	$('form').save.disabled = true;
-	data.keyword = form.keyword.value;
-	data.name = form.keyword.value;
-	data.enabled = true;
-	if (button = data.buttons[$('buttonSelect').selectedIndex]) {
-		data.url = data.url+'&'+button.name+'='+button.value;
+	keyword.focus();
+	
+	keyword.keyup(function() {
+		validate();
+	});
+	
+	save.click(function() {
+		this.disabled = true;
+		data.keyword = keyword.val();
+		data.name = keyword.val();
+		data.enabled = true;
+		if (button = data.buttons[buttonSelect.attr('selectedIndex')]) {
+			data.url = data.url+'&'+button.name+'='+button.value;
+		}
+		delete data.buttons;
+		Store.setItem(data);
+		Pop.transition('search');
+		safari.self.hide();
+	});
+	
+	function validate() {
+		const keyword = $('#keyword').val(),
+			  save = $('#save'),
+			  desc = $('#keyDesc');
+		if (keyword == '') {
+			save.attr('disabled', true);
+			desc.text('');
+		} else if (keyword.indexOf(' ') != -1) {
+			desc.text('Keyword must not contain spaces');
+			save.attr('disabled', true);
+		} else if (keyword.substr(0,1) == '>') {
+			desc.text('Keyword must not start with >');
+			save.attr('disabled', true);
+		} else if (Store.getItem(keyword)) {
+			desc.text('Keyword must be unique');
+			save.attr('disabled', true);
+		} else {
+			desc.text('');
+			save.attr('disabled', false);
+		}
 	}
-	delete data.buttons;
-	store.setItem(data);
-	safari.self.tab.dispatchMessage('closeBox');
-}
 
-function validateForm() {
-	const form = $('form'),
-		  desc = $('keyDesc');
-	if (form.keyword.value == '') {
-		form.save.disabled = true;
-		desc.textContent = ' ';
-	} else if (store.getItem(form.keyword.value)) {
-		desc.textContent = 'Keyword must be unique';
-		form.save.disabled = true;
-	}else if (form.keyword.value.split(' ')[1]) {
-		desc.textContent = 'Keyword must be a single word';
-		form.save.disabled = true;
-	}else if (form.keyword.value.substr(0,1) == '>') {
-		desc.textContent = 'Keyword must not start with >';
-		form.save.disabled = true;
-	} else {
-		desc.textContent = ' ';
-		form.save.disabled = false;
-	}
-}
-
-function handleKeyup(e) {
-	if(e.which == 27)
-		safari.self.tab.dispatchMessage('closeBox');
-}
-
-var data = new Object();
-var _gaq = _gaq || [];
-	_gaq.push(['_setAccount', 'UA-125911-9']);
-	_gaq.push(['_trackPageview']);
-(function() {
-	var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-	ga.src = 'https://ssl.google-analytics.com/ga.js';
-	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-})();
-window.addEvent('domready', pageLoaded, false);
-window.addEventListener('keyup', handleKeyup, false);
-
+});
