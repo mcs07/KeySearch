@@ -34,5 +34,11 @@
 		<key>Type</key>
 		<string>Separator</string>
 	</dict>
+	<dict>
+		<key>DefaultValue</key>
+		<true/>
+		<key>Key</key>
+		<string>enableAddressBar</string>
+	</dict>
 </array>
 </plist>

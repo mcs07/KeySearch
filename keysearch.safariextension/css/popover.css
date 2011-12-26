@@ -18,7 +18,7 @@ body {
 
 .search body { width: 550px; height: 60px;}
 .keywords body {width: 670px; height: 300px;}
-.settings body {width: 400px; height: 280px;}
+.settings body {width: 400px; height: 300px;}
 .import body, .export body {width: 480px; height: 320px;}
 .add body {width: 500px; height: 200px;}
 
@@ -509,6 +509,12 @@ label.iPhoneCheckLabelOff span {
 #shortcutContainer {
 	display: inline-block;
 	position: relative;
+}
+
+#centerAlign label {
+	margin: 0;
+	width: auto;
+	float: none;
 }
 
 

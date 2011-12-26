@@ -45,7 +45,7 @@ var Pop = {
 			break;
 		case 'settings':
 			width = 404;
-			height = 284;
+			height = 304;
 			break;
 		case 'keywords':
 			width = 674;

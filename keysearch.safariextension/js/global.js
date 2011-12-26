@@ -186,7 +186,7 @@ function validateCommand(e) {
 // Accepts keysearch input via the address bar
 function handleBeforeNavigate(e) {
 	var url = e.url;
-	if (!url || !(url.indexOf('http://') == 0 && url.substr(-1) === '/')) {
+	if (!ext.settings.enableAddressBar || !url || !(url.indexOf('http://') == 0 && url.substr(-1) === '/')) {
 		return;
 	}
 	url = punycode.ToUnicode(decodeURIComponent(url.replace(/^http:\/\//, '').replace(/\/$/, '')));
