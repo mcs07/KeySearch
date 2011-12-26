@@ -176,11 +176,27 @@ function performCommand(e) {
 }
 
 function validateCommand(e) {
-	console.log(e.command);
 	if (e.userInfo && e.userInfo.url == 'noUrl') {
 		e.target.disabled = true;
 	} else {
 		e.target.disabled = false;
+	}
+}
+
+// Accepts keysearch input via the address bar
+function handleBeforeNavigate(e) {
+	var url = e.url;
+	if (!url || !(url.indexOf('http://') == 0 && url.substr(-1) === '/')) {
+		return;
+	}
+	url = punycode.ToUnicode(decodeURIComponent(url.replace(/^http:\/\//, '').replace(/\/$/, '')));
+	parseResults = parseQuery(url)
+	if (parseResults.key != 'default') {
+		e.target.url = parseResults.url
+	}
+	var match = url.match(/^((www\.){0,1}[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,5}[\.]{0,1}?|localhost|(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}))(:[1-9][0-9]*)?($|\/.*)/)
+	if (!match) {
+		e.target.url = parseResults.url
 	}
 }
 
@@ -193,6 +209,7 @@ const app = safari.application,
 app.addEventListener('message', handleMessage, false);
 app.addEventListener('command', performCommand, false);
 app.addEventListener('validate', validateCommand, false);
+app.addEventListener('beforeNavigate', handleBeforeNavigate, false);
 
 // Google Analytics
 var _gaq = _gaq || [];
