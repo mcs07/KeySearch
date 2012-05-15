@@ -4,7 +4,7 @@
 $(function() {
 	var prevVersion = ext.settings.version;
 	switch (true) {
-	case (prevVersion == 200):	// No upgrade
+	case (prevVersion == 210):	// No upgrade
 		return;
 	case (prevVersion == undefined): // New installation
 		_gaq.push(['_trackEvent', 'Install', 'New']);	// Put empty shortcut argument in
@@ -32,9 +32,12 @@ $(function() {
 	case (prevVersion == 151): // Upgrading from 1.5.1
 		_gaq.push(['_trackEvent', 'Install', '151']);
 		break;
+	case (prevVersion == 200): // Upgrading from 1.5.1
+		_gaq.push(['_trackEvent', 'Install', '200']);
+		break;
 	}
 	// After all upgrades and new installations:
-	ext.settings.version = 200;
+	ext.settings.version = 210;
 	Store.upgrade();
 });
 

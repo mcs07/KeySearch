@@ -5,11 +5,11 @@
 	<key>Author</key>
 	<string>Matt Swain</string>
 	<key>Builder Version</key>
-	<string>7534.52.7</string>
+	<string>7536.6.1</string>
 	<key>CFBundleDisplayName</key>
 	<string>KeySearch</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.macosxtips.keysearch</string>
+	<string>com.matt-swain.keysearch</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleShortVersionString</key>
@@ -74,7 +74,7 @@
 			</array>
 			<key>Start</key>
 			<array>
-				<string>js/jquery-1.6.1.min.js</string>
+				<string>js/jquery-1.7.2.min.js</string>
 			</array>
 		</dict>
 	</dict>
@@ -93,8 +93,8 @@
 		</dict>
 	</dict>
 	<key>Update Manifest URL</key>
-	<string>http://www.macosxtips.co.uk/keysearch/keysearch.plist</string>
+	<string>http://assets.matt-swain.com/keysearch/keysearch.plist</string>
 	<key>Website</key>
-	<string>http://www.macosxtips.co.uk/keysearch</string>
+	<string>http://www.matt-swain.com/keysearch</string>
 </dict>
 </plist>
