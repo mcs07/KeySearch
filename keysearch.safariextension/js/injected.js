@@ -24,12 +24,12 @@ function showHUD(keyword) {
 			closeHUD();
 	   	}
 	} else {
-	
 		// Create and append HUD
+		if ($('link[href^="safari-extension://com.matt-swain.keysearch"][href$="css/hud.css"]').length == 0) {
+			$('<link rel="stylesheet" href="'+ext.baseURI+'css/hud.css">').appendTo('head');
+		}
+		
 		$('body').append('<div id="keysearchHud"><span id="keysearchHudSubText">KeySearch</span><input type="text" id="keysearchHudInput" /></div>');
-		$('#keysearchHud').css({width: '100% !important', height: '80px !important', backgroundColor: 'rgba(33,33,33,0.65) !important', position: 'fixed !important', zIndex: '99999 !important', bottom: '0 !important', left: '0 !important', margin: '0 !important', padding: '0 !important', display: 'none'}); 
-		$('#keysearchHudInput').css({width: '98% !important', height: '80px !important', background: 'none !important', top: '0 !important', left: '0 !important', margin: '0 !important', padding: '5px 10px !important', color: '#fff !important', lineHeight: '20px !important', border: 'none !important', boxShadow: 'none !important', outline: 'none !important', fontSize: '50px !important', fontFamily: '"Lucida Grande" !important'}); 
-		$('#keysearchHudSubText').css({position: 'absolute !important', top: '0px !important', right: '0px !important', background: 'none !important', color: '#fff !important', fontSize: '14px !important', lineHeight: '20px !important', fontFamily: '"Lucida Grande" !important', margin: '2px 10px 0 0 !important', overflow: 'hidden !important'});
 		$('#keysearchHud').fadeIn(150, function() {
 			$('#keysearchHudInput').focus();
 		});
