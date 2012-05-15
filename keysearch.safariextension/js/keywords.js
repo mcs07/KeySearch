@@ -133,8 +133,6 @@ function dataToForm(data) {
 	$.each(data, function(i, n) {
 		var el = $('#'+i);
 		if (el.attr('type') == 'checkbox') {
-			console.log(el.prop('checked'));
-			console.log(n);
 			if (el.prop('checked') != n) {
 				console.log('need to change');
 				el.prop('checked', !el.is(':checked')).change();

@@ -32,7 +32,7 @@ $(function() {
 	case (prevVersion == 151): // Upgrading from 1.5.1
 		_gaq.push(['_trackEvent', 'Install', '151']);
 		break;
-	case (prevVersion == 200): // Upgrading from 1.5.1
+	case (prevVersion == 200): // Upgrading from 2.0
 		_gaq.push(['_trackEvent', 'Install', '200']);
 		break;
 	}
