@@ -18,6 +18,7 @@ $(function() {
 		Store.addItem('imdb','IMDb','http://www.imdb.com/find?s=all&q=@@@',true);
 		Store.addItem('youtube','YouTube','http://www.youtube.com/results?search_query=@@@',true);
 		Store.addItem('fb','FaceBook','https://www.facebook.com/search.php?q=@@@',true);
+		Store.addItem('r','reddit','http://www.reddit.com/search?q=@@@',true);
 		// TODO: Check if Windows, if so change shortcut to something else
 		break;
 	case (prevVersion < 151): // Upgrading from before 1.5.1
@@ -35,9 +36,12 @@ $(function() {
 	case (prevVersion == 200): // Upgrading from 2.0
 		_gaq.push(['_trackEvent', 'Install', '200']);
 		break;
+	case (prevVersion == 200): // Upgrading from 2.1
+		_gaq.push(['_trackEvent', 'Install', '210']);
+		break;
 	}
 	// After all upgrades and new installations:
-	ext.settings.version = 210;
+	ext.settings.version = 211;
 	Store.upgrade();
 });
 
