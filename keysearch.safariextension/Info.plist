@@ -9,7 +9,7 @@
 	<key>CFBundleDisplayName</key>
 	<string>KeySearch</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.matt-swain.keysearch</string>
+	<string>com.macosxtips.keysearch</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleShortVersionString</key>
@@ -93,8 +93,8 @@
 		</dict>
 	</dict>
 	<key>Update Manifest URL</key>
-	<string>http://assets.matt-swain.com/keysearch/keysearch.plist</string>
+	<string>http://www.macosxtips.co.uk/keysearch/keysearch.plist</string>
 	<key>Website</key>
-	<string>http://www.matt-swain.com/keysearch</string>
+	<string>http://www.macosxtips.co.uk/keysearch</string>
 </dict>
 </plist>
