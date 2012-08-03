@@ -24,12 +24,12 @@ $(function() {
 function addToList(data) {
 	$('ul').append(
 		$('<li id="item-'+data.keyword+'">').append(
-			$('<a class="listLink'+(data.enabled?'':' disabled')+'" href="#'+data.keyword+'">'+data.name+'</a>').click(function() {
+			$('<span class="listLink'+(data.enabled?'':' disabled')+'" data-keyword="'+data.keyword+'">'+data.name+'</span>').click(function() {
 				markCurrent($(this));
-				var data = Store.getItem($(this).attr('href').substr(1));
+				var data = Store.getItem($(this).attr('data-keyword'));
 				bindEditForm(data);
 			}),
-			$('<a class="delete" href="#'+data.keyword+'">[delete]</a>').click(function(){
+			$('<span class="delete" data-keyword="'+data.keyword+'">[delete]</span>').click(function(){
 				var li = $(this).parent(),
 					link = $(this).prev();
 				if (link.hasClass('current')) {
@@ -46,7 +46,7 @@ function addToList(data) {
 				li.fadeOut(400, function() {
 					li.remove();
 				}); 
-				Store.removeItem($(this).attr('href').substr(1));
+				Store.removeItem($(this).attr('data-keyword'));
 			})
 		)
 	)
@@ -75,12 +75,12 @@ function bindEditForm(data) {
  			li.attr('id', 'item-'+key);
  			var link = li.children('a').eq(0);
  			link.text(data.name);
- 			link.attr('href', '#'+key);
+ 			link.attr('data-keyword', key);
  			link.removeClass('disabled');
  			if (!data.enabled)
  				link.addClass('disabled');
  			deleteLink = li.children('a').eq(1);
- 			deleteLink.attr('href', '#'+key);			
+ 			deleteLink.attr('data-keyword', key);			
  			oldKey = key;
  			sortList(1000);
  		}
@@ -188,7 +188,7 @@ function validate() {
 	} else if (keyword.substr(0,1) == '>') {
 		error.text('Keyword must not start with >');
 		save.attr('disabled', true);
-	} else if (Store.getItem(keyword) && keyword != $('.current').attr('href').substr(1)) {
+	} else if (Store.getItem(keyword) && keyword != $('.current').attr('data-keyword')) {
 		error.text('Keyword must be unique');
 		save.attr('disabled', true);
 	} else {

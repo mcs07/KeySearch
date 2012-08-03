@@ -310,7 +310,7 @@ aside li {
 	position: relative;
 }
 
-aside a.listLink {
+aside span.listLink {
 	display: block;
 	padding: 5px 10px;
 	text-decoration: none;
@@ -321,18 +321,18 @@ aside a.listLink {
 	text-overflow: ellipsis;
 }
 
-aside a.listLink.disabled {
+aside span.listLink.disabled {
 	color: #888;
 }
 
-aside a.listLink.current {
+aside span.listLink.current {
 	color: #fff;
 	font-weight: bold;
 	text-shadow: 0 1px 0 #333;
 	background: -webkit-linear-gradient(top, #5b92d5 0%,#1654ab 100%);
 }
 
-aside a.delete {
+aside span.delete {
 	display: none;
 	position: absolute;
 	top: 50%;
@@ -346,15 +346,15 @@ aside a.delete {
 	text-indent: -1000px;
 }
 
-aside li:hover a.delete, .current + a.delete {
+aside li:hover span.delete, .current + span.delete {
     display: block;
 }
 
-aside a.delete:hover {
+aside span.delete:hover {
 	background-image: url('../images/closeHover.png');
 }
 
-aside .delete[href="#default"] {
+aside .delete[data-keyword="default"] {
 	display: none !important;
 }
 
