@@ -36,7 +36,7 @@ $(function() {
 	case (prevVersion == 200): // Upgrading from 2.0
 		_gaq.push(['_trackEvent', 'Install', '200']);
 		break;
-	case (prevVersion == 200): // Upgrading from 2.1
+	case (prevVersion == 210): // Upgrading from 2.1
 		_gaq.push(['_trackEvent', 'Install', '210']);
 		break;
 	}
