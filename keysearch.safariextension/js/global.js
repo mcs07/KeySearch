@@ -4,7 +4,7 @@
 $(function() {
 	var prevVersion = ext.settings.version;
 	switch (true) {
-	case (prevVersion == 210):	// No upgrade
+	case (prevVersion == 211):	// No upgrade
 		return;
 	case (prevVersion == undefined): // New installation
 		_gaq.push(['_trackEvent', 'Install', 'New']);	// Put empty shortcut argument in
