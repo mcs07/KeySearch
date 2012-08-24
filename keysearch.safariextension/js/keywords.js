@@ -9,7 +9,9 @@ $(function() {
 		bindNewForm();
 	}).click();
 	$('#actionButton').prop('selectedIndex', -1).click(function() {
-		Pop.transition($(this).val());
+		if ($(this).val()) {
+			Pop.transition($(this).val());
+		}
 	});
 	$('form input').bind('keyup change', validate);
 	$('#keyword').blur(function() {
