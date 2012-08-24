@@ -190,18 +190,31 @@ function validateCommand(e) {
 	}
 }
 
+// Accepts keysearch input via the address bar in Safari 5.1
+function handleBeforeNavigate(e) {
+	if (!safari.application.privateBrowsing) {
+		 var url = e.url;
+		if (!ext.settings.enableAddressBar || !url || !(url.indexOf('http://') == 0 && url.substr(-1) === '/')) {
+			return;
+		}
+		url = punycode.ToUnicode(decodeURIComponent(url.replace(/^http:\/\//, '').replace(/\/$/, '')));
+		parseResults = parseQuery(url);
+		if (parseResults.key != 'default') {
+			e.target.url = parseResults.url;
+		}
+		var match = url.match(/^((www\.){0,1}[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,5}[\.]{0,1}?|localhost|(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}))(:[1-9][0-9]*)?($|\/.*)/)
+		if (!match) {
+			e.target.url = parseResults.url;
+		}
+	}
+}
+
 // Accept search input via the address bar in Safari 6
 function handleBeforeSearch(e) {
-	console.log(e);
 	var textEntered = e.query;
 	if (ext.settings.enableAddressBar && textEntered) {
-		parseResults = parseQuery(textEntered);
-		console.log(parseResults);
-		//if (parseResults.key != 'default') {	// Omitting this allows override of default Safari search using KeySearch
-			e.preventDefault();
-			console.log(parseResults.url);
-			e.target.url = parseResults.url
-		//}
+		e.preventDefault();
+		e.target.url = parseQuery(textEntered).url;
 	}
 }
 
@@ -215,6 +228,7 @@ app.addEventListener('message', handleMessage, false);
 app.addEventListener('command', performCommand, false);
 app.addEventListener('validate', validateCommand, false);
 app.addEventListener('beforeSearch', handleBeforeSearch, false);
+app.addEventListener('beforeNavigate', handleBeforeNavigate, false);
 
 // Google Analytics
 var _gaq = _gaq || [];
