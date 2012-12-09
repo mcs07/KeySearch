@@ -1,7 +1,7 @@
 var Store = {
     
     getItem: function(key) {
-        var jsonString = localStorage.getItem(key);
+        var jsonString = safari.extension.settings.getItem('__'+key);
         if (jsonString) {
             var data = JSON.parse(jsonString);
             return data;
@@ -10,12 +10,12 @@ var Store = {
     
     setItem: function(data) {
         var jsonString = JSON.stringify(data);
-        localStorage.setItem(data.keyword, jsonString);
+        safari.extension.settings.setItem('__'+data.keyword, jsonString);
         return;
     },
     
     setCheckItem: function(data) {
-    	if (localStorage.getItem(data.keyword) !== null)
+    	if (safari.extension.settings.getItem('__'+data.keyword) !== null)
     		return 0;
         Store.setItem(data);
         return 1;
@@ -34,19 +34,34 @@ var Store = {
     },
     
     removeItem: function(key) {
-        localStorage.removeItem(key);
+        safari.extension.settings.removeItem('__'+key);
         return;
     },
     
     each: function(fn) {
-    	for (var i=0; i < localStorage.length; i++) {
-        	var data = Store.getItem(localStorage.key(i));
-            fn(data);
+    	for (keyword in safari.extension.settings) {
+    		if (keyword.substr(0,2) == '__') {
+    			var data = Store.getItem(keyword.substr(2));
+				fn(data);
+    		}
         }
         return;
     },
     
     upgrade: function() {
+    
+    	// Switch to ext.settings from localStorage (since 2.2.1)
+    	for (var i=0; i < localStorage.length; i++) {
+			var jsonString = localStorage.getItem(localStorage.key(i));
+			if (jsonString) {
+				var data = JSON.parse(jsonString);
+				Store.setCheckItem(data);
+			}
+		}
+		localStorage.clear()
+    
+    	// Add 'name' field if missing (since 1.3)
+    	// Add 'shortcut' field if missing (since 1.5.1)
         Store.each(function(data) {
 			if (!data.name) {
 				data.name = data.keyword;
@@ -60,7 +75,7 @@ var Store = {
     },
     
     clear: function() {
-    	localStorage.clear();
+    	safari.extension.settings.clear();
     	return;
     }
 };

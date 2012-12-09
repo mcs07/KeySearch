@@ -2,9 +2,10 @@
 
 // Runs once per browser session
 $(function() {
+	Store.upgrade();
 	var prevVersion = ext.settings.version;
 	switch (true) {
-	case (prevVersion == 211):	// No upgrade
+	case (prevVersion == 212):	// No upgrade
 		return;
 	case (prevVersion == undefined): // New installation
 		_gaq.push(['_trackEvent', 'Install', 'New']);	// Put empty shortcut argument in
@@ -39,10 +40,13 @@ $(function() {
 	case (prevVersion == 210): // Upgrading from 2.1
 		_gaq.push(['_trackEvent', 'Install', '210']);
 		break;
+	case (prevVersion == 211): // Upgrading from 2.1.1
+		_gaq.push(['_trackEvent', 'Install', '211']);
+		break;
 	}
 	// After all upgrades and new installations:
-	ext.settings.version = 211;
-	Store.upgrade();
+	ext.settings.version = 212;
+	
 });
 
 // Handle messages received from injected script
@@ -116,7 +120,7 @@ function parseQuery(textEntered) {
 		}
 		if (!data) {
 			data = Store.getItem('default');				
-			if (!data.enabled) return;
+			if (!data || !data.enabled) return;
 			query = (query == '') ? key : (key+' '+query)
 			key = 'default';									
 		}
