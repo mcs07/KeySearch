@@ -39,9 +39,9 @@ function addToList(data) {
 						next = li.next(),
 						target = $('#plusButton');
 					if (next[0]) {
-						target = next.children('a').eq(0);
+						target = next.children('span').eq(0);
 					} else if (prev[0]) {
-						target = prev.children('a').eq(0);
+						target = prev.children('span').eq(0);
 					}
 					target.click();
 				}
@@ -75,13 +75,13 @@ function bindEditForm(data) {
  			key = data.keyword;
  			var li = $('#item-'+oldKey);
  			li.attr('id', 'item-'+key);
- 			var link = li.children('a').eq(0);
+ 			var link = li.children('span').eq(0);
  			link.text(data.name);
  			link.attr('data-keyword', key);
  			link.removeClass('disabled');
  			if (!data.enabled)
  				link.addClass('disabled');
- 			deleteLink = li.children('a').eq(1);
+ 			deleteLink = li.children('span').eq(1);
  			deleteLink.attr('data-keyword', key);			
  			oldKey = key;
  			sortList(1000);
@@ -106,7 +106,7 @@ function bindNewForm() {
 		if (data.keyword && data.url) {
 			Store.setItem(data);
 			addToList(data);
-			$('#item-'+data.keyword).children('a').eq(0).click();
+			$('#item-'+data.keyword).children('span').eq(0).click();
 			sortList(1000);
 		}
 		return false;
