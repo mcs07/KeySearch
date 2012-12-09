@@ -9,9 +9,16 @@ $(function() {
 		bindNewForm();
 	}).click();
 	$('#actionButton').prop('selectedIndex', -1).click(function() {
-		if ($(this).val()) {
+		if ($(this).val() == 'duplicate') {
+			var data = Store.duplicateItem(decodeURIComponent($('.current').attr('data-keyword')));
+			console.log(data);
+			addToList(data);
+			$('#item-'+data.keyword).children('span').eq(0).click();
+			sortList(1000);
+		} else if ($(this).val()) {
 			Pop.transition($(this).val());
 		}
+		$(this).prop('selectedIndex', -1);
 	});
 	$('form input').bind('keyup change', validate);
 	$('#keyword').blur(function() {
@@ -25,13 +32,13 @@ $(function() {
 
 function addToList(data) {
 	$('ul').append(
-		$('<li id="item-'+data.keyword+'">').append(
-			$('<span class="listLink'+(data.enabled?'':' disabled')+'" data-keyword="'+data.keyword+'">'+data.name+'</span>').click(function() {
+		$('<li id="item-'+encodeURIComponent(data.keyword)+'">').append(
+			$('<span class="listLink'+(data.enabled?'':' disabled')+'" data-keyword="'+encodeURIComponent(data.keyword)+'">'+data.name+'</span>').click(function() {
 				markCurrent($(this));
-				var data = Store.getItem($(this).attr('data-keyword'));
+				var data = Store.getItem(decodeURIComponent($(this).attr('data-keyword')));
 				bindEditForm(data);
 			}),
-			$('<span class="delete" data-keyword="'+data.keyword+'">[delete]</span>').click(function(){
+			$('<span class="delete" data-keyword="'+encodeURIComponent(data.keyword)+'">[delete]</span>').click(function(){
 				var li = $(this).parent(),
 					link = $(this).prev();
 				if (link.hasClass('current')) {
@@ -48,7 +55,7 @@ function addToList(data) {
 				li.fadeOut(400, function() {
 					li.remove();
 				}); 
-				Store.removeItem($(this).attr('data-keyword'));
+				Store.removeItem(decodeURIComponent($(this).attr('data-keyword')));
 			})
 		)
 	)
@@ -64,6 +71,8 @@ function bindEditForm(data) {
 	} else {
 		$('#name, #keyword, #shortcut').attr('disabled', false);
 	}
+	$('#actionButton option[value="duplicate"]').remove();
+	$('#actionButton').append($('<option value="duplicate">Duplicate '+data.name+'</option>')).prop('selectedIndex', -1);
 	Pop.displayShortcut();
 	validate();
  	var oldKey = data.keyword;
@@ -73,16 +82,16 @@ function bindEditForm(data) {
  			Store.removeItem(oldKey);
  			Store.setItem(data);
  			key = data.keyword;
- 			var li = $('#item-'+oldKey);
- 			li.attr('id', 'item-'+key);
+ 			var li = $('#item-'+encodeURIComponent(oldKey));
+ 			li.attr('id', 'item-'+encodeURIComponent(key));
  			var link = li.children('span').eq(0);
  			link.text(data.name);
- 			link.attr('data-keyword', key);
+ 			link.attr('data-keyword', encodeURIComponent(key));
  			link.removeClass('disabled');
  			if (!data.enabled)
  				link.addClass('disabled');
  			deleteLink = li.children('span').eq(1);
- 			deleteLink.attr('data-keyword', key);			
+ 			deleteLink.attr('data-keyword', encodeURIComponent(key));			
  			oldKey = key;
  			sortList(1000);
  		}
@@ -99,6 +108,7 @@ function bindNewForm() {
 	enabled.prop('checked', true).change();
 	$('.iPhoneCheckContainer').hide();
 	$('#keyword').width(296);
+	$('#actionButton option[value="duplicate"]').remove();
 	Pop.displayShortcut();
 	validate();
 	form.unbind('submit').bind('submit', function(){
@@ -106,7 +116,7 @@ function bindNewForm() {
 		if (data.keyword && data.url) {
 			Store.setItem(data);
 			addToList(data);
-			$('#item-'+data.keyword).children('span').eq(0).click();
+			$('#item-'+encodeURIComponent(data.keyword)).children('span').eq(0).click();
 			sortList(1000);
 		}
 		return false;
@@ -190,7 +200,7 @@ function validate() {
 	} else if (keyword.substr(0,1) == '>') {
 		error.text('Keyword must not start with >');
 		save.attr('disabled', true);
-	} else if (Store.getItem(keyword) && keyword != $('.current').attr('data-keyword')) {
+	} else if (Store.getItem(keyword) && keyword != decodeURIComponent($('.current').attr('data-keyword'))) {
 		error.text('Keyword must be unique');
 		save.attr('disabled', true);
 	} else {

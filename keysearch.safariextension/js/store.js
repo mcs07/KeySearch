@@ -33,6 +33,17 @@ var Store = {
         return;
     },
     
+    duplicateItem: function(keyword) {
+    	var data = Store.getItem(keyword);
+    	original = data.keyword;
+    	suffix = 2;
+    	while (!Store.setCheckItem(data)) {
+    		data.keyword = original + suffix;
+    		suffix += 1;
+    	}
+    	return data;
+    },
+    
     removeItem: function(key) {
         safari.extension.settings.removeItem('__'+key);
         return;
