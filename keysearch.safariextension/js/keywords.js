@@ -54,7 +54,7 @@ function addToList(data) {
 				}
 				li.fadeOut(400, function() {
 					li.remove();
-				}); 
+				});
 				Store.removeItem(decodeURIComponent($(this).attr('data-keyword')));
 			})
 		)
@@ -91,7 +91,7 @@ function bindEditForm(data) {
  			if (!data.enabled)
  				link.addClass('disabled');
  			deleteLink = li.children('span').eq(1);
- 			deleteLink.attr('data-keyword', encodeURIComponent(key));			
+ 			deleteLink.attr('data-keyword', encodeURIComponent(key));
  			oldKey = key;
  			sortList(1000);
  		}
@@ -164,7 +164,7 @@ function sortList(dur) {
 	liArray.sort(function(a, b){
  		var nameA=a.name, nameB=b.name;
  		if (nameA == 'default')
- 			return -1; 
+ 			return -1;
  		if (nameB == 'default')
  			return 1;
  		return (nameA < nameB) ? -1 : (nameA > nameB) ? 1 : 0;
@@ -207,7 +207,7 @@ function validate() {
 		error.text('');
 		save.attr('disabled', false);
 	}
-	
+
 	// TODO: Check for keyword shortcut clash
 	// TODO: Don't allow keywords to start with @
 }
@@ -215,8 +215,6 @@ function validate() {
 function setShortcut(shortcut) {
 	$('#shortcut').val(shortcut).blur();
 }
-
-const ext  = safari.extension;
 
 // iPhone style checkbox jquery plugin
 (function() {
