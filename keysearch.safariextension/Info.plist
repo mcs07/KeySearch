@@ -5,7 +5,7 @@
 	<key>Author</key>
 	<string>Matt Swain</string>
 	<key>Builder Version</key>
-	<string>8536.26.17</string>
+	<string>12602.1.50.0.10</string>
 	<key>CFBundleDisplayName</key>
 	<string>KeySearch</string>
 	<key>CFBundleIdentifier</key>
@@ -80,6 +80,8 @@
 	</dict>
 	<key>Description</key>
 	<string>Use keywords to quickly search any site from the toolbar</string>
+	<key>DeveloperIdentifier</key>
+	<string>6M853ET88Q</string>
 	<key>ExtensionInfoDictionaryVersion</key>
 	<string>1.0</string>
 	<key>Permissions</key>
