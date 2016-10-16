@@ -9,13 +9,13 @@
 	<key>CFBundleDisplayName</key>
 	<string>KeySearch</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.macosxtips.keysearch</string>
+	<string>com.matt-swain.keysearch</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.1.3</string>
+	<string>3.0.0</string>
 	<key>CFBundleVersion</key>
-	<string>2.1.3</string>
+	<string>3.0.0</string>
 	<key>Chrome</key>
 	<dict>
 		<key>Context Menu Items</key>
@@ -31,34 +31,19 @@
 		</array>
 		<key>Global Page</key>
 		<string>global.html</string>
-		<key>Popovers</key>
-		<array>
-			<dict>
-				<key>Filename</key>
-				<string>search.html</string>
-				<key>Height</key>
-				<real>500</real>
-				<key>Identifier</key>
-				<string>keySearchPopover</string>
-				<key>Width</key>
-				<real>800</real>
-			</dict>
-		</array>
 		<key>Toolbar Items</key>
 		<array>
 			<dict>
 				<key>Command</key>
-				<string></string>
+				<string>keySearchButton</string>
 				<key>Identifier</key>
 				<string>keySearchButton</string>
 				<key>Image</key>
-				<string>images/toolbar.png</string>
+				<string>toolbar.png</string>
 				<key>Label</key>
 				<string>KeySearch</string>
 				<key>Palette Label</key>
 				<string>KeySearch</string>
-				<key>Popover</key>
-				<string>keySearchPopover</string>
 				<key>Tool Tip</key>
 				<string>KeySearch</string>
 			</dict>
@@ -70,16 +55,12 @@
 		<dict>
 			<key>End</key>
 			<array>
-				<string>js/injected.js</string>
-			</array>
-			<key>Start</key>
-			<array>
-				<string>js/jquery-1.7.2.min.js</string>
+				<string>injected.js</string>
 			</array>
 		</dict>
 	</dict>
 	<key>Description</key>
-	<string>Use keywords to quickly search any site from the toolbar</string>
+	<string>Use keywords to quickly search any site from the address bar</string>
 	<key>DeveloperIdentifier</key>
 	<string>6M853ET88Q</string>
 	<key>ExtensionInfoDictionaryVersion</key>
@@ -95,8 +76,8 @@
 		</dict>
 	</dict>
 	<key>Update Manifest URL</key>
-	<string>http://www.macosxtips.co.uk/keysearch/keysearch.plist</string>
+	<string>http://matt-swain.com/keysearch/keysearch.plist</string>
 	<key>Website</key>
-	<string>http://www.macosxtips.co.uk/keysearch</string>
+	<string>http://matt-swain.com/keysearch</string>
 </dict>
 </plist>

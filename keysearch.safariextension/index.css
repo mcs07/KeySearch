@@ -1,0 +1,184 @@
+.button {
+  background-color: #fff;
+  font-size: 14px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  color: #444;
+  margin: 0;
+  padding: 2px 6px 3px 6px;
+  transition: background-color 200ms linear, color 200ms linear; }
+  .button__icon {
+    height: 1.4em;
+    width: 1.4em; }
+  .button__text {
+    vertical-align: middle;
+    line-height: 1.4em; }
+  .button:hover {
+    color: #fff;
+    background-color: #444; }
+
+.rules-app__add {
+  margin: 10px 0 0 0;
+  float: right;
+  color: #00bc00; }
+  .rules-app__add:hover {
+    background-color: #00bc00; }
+
+.rule {
+  padding: 20px 0; }
+  .rule.is-disabled {
+    opacity: 0.5; }
+  .rule__header {
+    display: flex; }
+  .rule__body {
+    position: relative;
+    display: flex; }
+  .rule__name {
+    margin: 0 5px 5px 0;
+    flex: 1 80%; }
+  .rule__enable {
+    margin: 2px 5px 8px 5px; }
+  .rule__delete {
+    margin: 2px 0 8px 5px;
+    color: #d40000; }
+    .rule__delete:hover {
+      background-color: #d40000; }
+  .rule__key {
+    position: relative;
+    flex: 1 25%;
+    padding: 8px;
+    background: #e9e9e9;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px; }
+    .rule__key .is-token {
+      background: #e9e9e9; }
+    .rule__key:after {
+      content: '';
+      display: block;
+      right: -46px;
+      position: absolute;
+      top: 0px;
+      width: 0;
+      height: 0;
+      border-left: 23px solid #e9e9e9;
+      border-right: 23px solid transparent;
+      border-top: 23px solid transparent;
+      border-bottom: 23px solid transparent; }
+  .rule__url {
+    flex: 1 75%;
+    padding: 8px 8px 8px 31px;
+    background: #f4f4f4;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px; }
+    .rule__url .is-token {
+      background: #f4f4f4; }
+  .rule__chevron::before {
+    border-style: solid;
+    border-width: 0.25em 0.25em 0 0;
+    content: '';
+    display: inline-block;
+    height: 0.65em;
+    width: 0.65em;
+    position: relative;
+    top: 1em;
+    transform: rotate(45deg);
+    vertical-align: top;
+    left: 0; }
+
+.token-input {
+  position: relative;
+  height: 30px;
+  color: #444; }
+  .token-input__input {
+    background: transparent;
+    outline: none;
+    border: 1px solid transparent;
+    position: absolute;
+    margin: 0;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    font-size: inherit;
+    font-weight: inherit;
+    color: inherit;
+    line-height: 1;
+    padding: 8px 4px; }
+    .token-input__input:hover {
+      border: 1px solid #ddd; }
+    .token-input__input:focus {
+      border: 1px solid #498feb; }
+  .token-input__overlay {
+    pointer-events: none;
+    color: transparent;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    line-height: 1;
+    padding: 7px 4px;
+    white-space: pre;
+    overflow: hidden;
+    border: 1px solid transparent; }
+    .token-input__overlay.is-focused {
+      opacity: 0; }
+  .token-input__span.is-token {
+    padding: 0 4px; }
+    .token-input__span.is-token > span {
+      border-radius: 3px;
+      border: 2px solid #498feb;
+      padding: 1px 5px 2px;
+      color: #498feb; }
+
+html {
+  box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 0 10px;
+  font-family: -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #444; }
+
+h2 {
+  font-weight: normal;
+  font-size: 24px; }
+
+.container {
+  max-width: 970px;
+  margin: 0 auto 50px; }
+
+.row:after {
+  content: '';
+  display: block;
+  clear: both; }
+
+.navbar {
+  height: 58px;
+  border-bottom: 2px solid #444; }
+  .navbar__brand {
+    float: left;
+    margin: 20px 0 10px 0;
+    line-height: 28px; }
+  .navbar__nav {
+    float: right;
+    padding: 0;
+    margin: 20px 0 0 0;
+    list-style: none; }
+  .navbar__item {
+    float: left;
+    position: relative;
+    display: block; }
+  .navbar__link {
+    line-height: 38px;
+    padding: 20px 5px 10px 5px;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 16px;
+    border-bottom: 2px solid transparent; }
+  .navbar__link.active {
+    color: #498feb;
+    border-bottom: 2px solid #498feb; }

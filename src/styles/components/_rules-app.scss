@@ -1,0 +1,11 @@
+.rules-app {
+    &__add {
+        margin: 10px 0 0 0;
+        float: right;
+        color: #00bc00;
+
+        &:hover {
+            background-color: #00bc00;
+        }
+    }
+}

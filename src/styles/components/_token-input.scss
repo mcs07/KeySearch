@@ -1,0 +1,64 @@
+.token-input {
+  position: relative;
+  height: 30px;
+  color: #444;
+
+  &__input {
+    background: transparent;
+    outline: none;
+    border: 1px solid transparent;
+    position: absolute;
+    margin: 0;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    font-size: inherit;
+    font-weight: inherit;
+    color: inherit;
+    line-height: 1;
+    padding: 8px 4px;
+
+    &:hover {
+      border: 1px solid #ddd;
+    }
+
+    &:focus {
+      border: 1px solid #498feb;
+    }
+
+  }
+
+  &__overlay {
+    pointer-events: none;
+    color: transparent;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    line-height: 1;
+    padding: 7px 4px;
+    white-space: pre;
+    overflow: hidden;
+    border: 1px solid transparent;
+
+    &.is-focused {
+      opacity: 0;
+    }
+  }
+
+  &__span {
+
+    &.is-token {
+      padding: 0 4px;
+
+      &>span {
+        border-radius: 3px;
+        border: 2px solid #498feb;
+        padding: 1px 5px 2px;
+        color: #498feb;
+      }
+    }
+  }
+}

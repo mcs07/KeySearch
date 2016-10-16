@@ -1,0 +1,70 @@
+@import "./components";
+
+html {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0 10px;
+  font-family: -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #444;
+}
+
+h2 {
+  font-weight: normal;
+  font-size: 24px;
+}
+
+.container {
+  max-width: 970px;
+  margin: 0 auto 50px;
+}
+
+.row:after {
+    content: '';
+    display: block;
+    clear: both;
+}
+
+.navbar {
+  height: 58px;
+  border-bottom: 2px solid #444;
+
+  &__brand {
+    float: left;
+    // color: #498feb;
+    margin: 20px 0 10px 0;
+    line-height: 28px;
+  }
+
+  &__nav {
+    float: right;
+    padding: 0;
+    margin: 20px 0 0 0;
+    list-style: none;
+  }
+
+  &__item {
+    float: left;
+    position: relative;
+    display: block;
+  }
+
+  &__link {
+    line-height: 38px;
+    padding: 20px 5px 10px 5px;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 16px;
+    border-bottom: 2px solid transparent;
+  }
+
+  &__link.active {
+    color: #498feb;
+    border-bottom: 2px solid #498feb;
+  }
+
+}

@@ -1,0 +1,26 @@
+.button {
+  background-color: #fff;  //#f4f4f4;
+  font-size: 14px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  color: #444;
+  margin: 0;
+  padding: 2px 6px 3px 6px;
+  transition: background-color 200ms linear, color 200ms linear;
+
+  &__icon {
+    height: 1.4em;
+    width: 1.4em;
+  }
+
+  &__text {
+    vertical-align: middle;
+    line-height: 1.4em;
+  }
+
+  &:hover {
+    color: #fff;
+    background-color: #444;
+  }
+}

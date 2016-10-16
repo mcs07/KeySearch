@@ -1,44 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
-<array>
-	<dict>
-		<key>DefaultValue</key>
-		<real>10083</real>
-		<key>Key</key>
-		<string>shortcut</string>
-	</dict>
-	<dict>
-		<key>Key</key>
-		<string>version</string>
-	</dict>
-	<dict>
-		<key>DefaultValue</key>
-		<string>current</string>
-		<key>Key</key>
-		<string>resultsType</string>
-	</dict>
-	<dict>
-		<key>DefaultValue</key>
-		<string>popover</string>
-		<key>Key</key>
-		<string>shortcutAction</string>
-	</dict>
-	<dict>
-		<key>Title</key>
-		<string>Access settings by clicking the KeySearch button</string>
-		<key>Type</key>
-		<string>Group</string>
-	</dict>
-	<dict>
-		<key>Type</key>
-		<string>Separator</string>
-	</dict>
-	<dict>
-		<key>DefaultValue</key>
-		<false/>
-		<key>Key</key>
-		<string>enableAddressBar</string>
-	</dict>
-</array>
+<array/>
 </plist>
