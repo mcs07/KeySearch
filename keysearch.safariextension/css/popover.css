@@ -63,7 +63,7 @@ header button {
 
 section {
 	-webkit-box-flex: 1;
-	margin: 15px 15px 0 15px; 
+	margin: 15px 15px 0 15px;
 }
 
 .keywords section { margin: 0;}
@@ -299,15 +299,16 @@ aside ul {
 	margin: 0;
 	padding: 0;
 	list-style: none;
-	/* replace with linear gradient */
-	-webkit-background-size: auto 50px;
-    background: -webkit-linear-gradient(top, #ffffff 0%,#ffffff 50%,#f7f7f7 50%,#f7f7f7 100%);
 }
 
 aside li {
 	margin: 0;
 	padding: 0;
 	position: relative;
+}
+
+aside li:nth-child(even) {
+   background-color: #f7f7f7;
 }
 
 aside span.listLink {
@@ -562,7 +563,7 @@ textarea.export {
 }
 
 #buttonSelect {
-	width:  206px;	
+	width:  206px;
 }
 
 .add #save {
