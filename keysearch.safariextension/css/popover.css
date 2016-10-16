@@ -158,6 +158,7 @@ section button {
 
 #searchSettings:hover {
 	background: url('../images/settingsHover.png');
+	background-size: 20px;
 }
 
 #helpButton {
