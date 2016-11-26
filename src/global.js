@@ -13,6 +13,7 @@ app.addEventListener('command', performCommand, false)
 app.addEventListener('validate', validateCommand, false)
 app.addEventListener('beforeSearch', handleBeforeSearch, false)
 app.addEventListener('message', handleMessage, false)
+ext.settings.addEventListener('change', handleSettingChanged, false);
 
 
 // Debug logging
@@ -126,6 +127,15 @@ function handleMessage(e) {
     let {id, method, args} = e.message
     let response = store[method].apply(store, args)
     e.target.page.dispatchMessage('storeResponse', {id, response})
+  }
+}
+
+
+// Handle settings changes
+function handleSettingChanged(e) {
+  console.log(e)
+  if (e.key === 'openSettings') {
+    openSettings()
   }
 }
 
