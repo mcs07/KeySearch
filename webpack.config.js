@@ -26,7 +26,6 @@ if (isProduction) {
 module.exports = {
   entry: {
     global: './src/global.js',
-    injected: './src/injected.js',
     index: './src/index.jsx'
   },
   output: {

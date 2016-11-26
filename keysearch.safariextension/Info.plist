@@ -49,16 +49,6 @@
 			</dict>
 		</array>
 	</dict>
-	<key>Content</key>
-	<dict>
-		<key>Scripts</key>
-		<dict>
-			<key>End</key>
-			<array>
-				<string>injected.js</string>
-			</array>
-		</dict>
-	</dict>
 	<key>Description</key>
 	<string>Use keywords to quickly search any site from the address bar</string>
 	<key>DeveloperIdentifier</key>
@@ -72,7 +62,7 @@
 			<key>Include Secure Pages</key>
 			<true/>
 			<key>Level</key>
-			<string>All</string>
+			<string>None</string>
 		</dict>
 	</dict>
 	<key>Update Manifest URL</key>
