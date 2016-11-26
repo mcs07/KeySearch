@@ -7,7 +7,6 @@ class StoreClient {
     safari.self.addEventListener('message', (e) => {
       if (e.name === 'storeResponse') {
         console.log('StoreClient storeResponse')
-        console.log(e)
         let {id, response} = e.message
         let cb = this.callbacks[id]
         if (cb) {

@@ -10,7 +10,6 @@ import block from 'bem-cn'
 class RulesApp extends React.Component {
 
   componentDidMount() {
-    console.log(this.props.actions)
     this.props.actions.loadRules()
   }
 

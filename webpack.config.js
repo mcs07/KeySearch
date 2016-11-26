@@ -4,9 +4,26 @@ const {resolve} = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const extensionPath = resolve(__dirname, 'keysearch.safariextension');
+const isProduction = process.env.NODE_ENV === 'production'
+
+var jsLoaders = [{
+  loader: 'babel-loader',
+  options: {
+    presets: [['es2015', {modules: false}], 'stage-0', 'react'],
+    plugins: ['transform-runtime']
+  }
+}]
+
+if (isProduction) {
+  jsLoaders.push({
+    loader: 'strip-loader',
+    options: {
+      strip: ['console.log']
+    }
+  })
+}
 
 module.exports = {
-  devtool: "eval-source-map",  // eval for production?
   entry: {
     global: './src/global.js',
     injected: './src/injected.js',
@@ -17,34 +34,34 @@ module.exports = {
     filename: '[name].js'
   },
   plugins: [
-    new webpack.DefinePlugin({'process.env':{'NODE_ENV': JSON.stringify('development')}}),  // TODO: production
     new webpack.NoErrorsPlugin(),
     new ExtractTextPlugin('[name].css')
   ],
   resolve: {
-    extensions: ['', '.js', '.jsx']
+    extensions: ['.js', '.jsx']
   },
   module: {
-    loaders: [
-      {test: /\.scss$/, loader: ExtractTextPlugin.extract('style', 'css?sourceMap!postcss!sass?sourceMap')},
+    rules: [
+      {
+        test: /\.scss$/,
+        loader: ExtractTextPlugin.extract({
+          fallbackLoader: ['style-loader'],
+          loader: ['css-loader', 'sass-loader']
+        })
+      },
       {
         test: /\.jsx?$/,
-        loader: 'babel',
         exclude: /node_modules/,
-        query: {
-          presets: ['es2015', 'stage-0', 'react'],
-          plugins: ['transform-runtime']
-        }
+        use: jsLoaders
       },
       {
         test: /\.(jpg|png|svg|ttf|eot|woff2?)$/,
-        loaders: [
-            'file-loader?name=[path][name].[ext]'
-        ]
-      }
+        loader: 'file-loader',
+        options: {
+          name: '[path][name].[ext]'
+        }
+      },
+      {test: /\.json$/, loader: 'json-loader'}
     ]
   }
 }
-
-
-// TODO: https://github.com/yahoo/strip-loader in production

@@ -64,29 +64,30 @@ init()
 // Converts the entered text into a URL
 function parseQuery(textEntered) {
   console.log('Parsing input: ' + textEntered)
-  if (textEntered.substr(0, 1) == '>') {
-    // If text starts with > use google site search
-    let key = textEntered.split(' ')[0]
-    // If no domain provided, get from currently open page
-    let siteToSearch = (key.length == 1) ? app.activeBrowserWindow.activeTab.url.match(/:\/\/(www\.)?(.[^/:]+)/)[2] : key.substr(1)
-    // Construct query and URL
-    let query = 'site:' + siteToSearch + ' ' + textEntered.substr(key.length + 1)
-    let url = 'http://www.google.com/search?q=' + encodeURIComponent(query).replace(/%20/g, '+')
-    console.log('URL: ' + url)
-    return url
-  } else {
-    let key = textEntered.split(' ')[0]
-    let query = textEntered.substr(key.length + 1)
-    let data = store.get(key)
-    // If no query or no key or disabled key, take entire input as query and use default
-    if (query === '' || !data || !data.enabled || key == 'default') {
-      query  = textEntered
-      data = store.get('default')
-    }
-    let url = data.url.replace('@@@', encodeURIComponent(query).replace(/%20/g, '+'))
-    console.log('URL: ' + url)
-    return url
-  }
+  return null
+  // if (textEntered.substr(0, 1) == '>') {
+  //   // If text starts with > use google site search
+  //   let key = textEntered.split(' ')[0]
+  //   // If no domain provided, get from currently open page
+  //   let siteToSearch = (key.length == 1) ? app.activeBrowserWindow.activeTab.url.match(/:\/\/(www\.)?(.[^/:]+)/)[2] : key.substr(1)
+  //   // Construct query and URL
+  //   let query = 'site:' + siteToSearch + ' ' + textEntered.substr(key.length + 1)
+  //   let url = 'http://www.google.com/search?q=' + encodeURIComponent(query).replace(/%20/g, '+')
+  //   console.log('URL: ' + url)
+  //   return url
+  // } else {
+  //   let key = textEntered.split(' ')[0]
+  //   let query = textEntered.substr(key.length + 1)
+  //   let data = store.get(key)
+  //   // If no query or no key or disabled key, take entire input as query and use default
+  //   if (query === '' || !data || !data.enabled || key == 'default') {
+  //     query  = textEntered
+  //     data = store.get('default')
+  //   }
+  //   let url = data.url.replace('@@@', encodeURIComponent(query).replace(/%20/g, '+'))
+  //   console.log('URL: ' + url)
+  //   return url
+  // }
 }
 
 function openSettings() {
