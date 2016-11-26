@@ -7,7 +7,6 @@ const isInteger = require('lodash/isInteger')
 const app = safari.application
 const ext = safari.extension
 
-// popWindow = ext.popovers[0].contentWindow;
 
 // Safari Application event listeners
 app.addEventListener('command', performCommand, false)
@@ -16,14 +15,13 @@ app.addEventListener('beforeSearch', handleBeforeSearch, false)
 app.addEventListener('message', handleMessage, false)
 
 
+// Debug logging
 console.log('KeySearch global page loaded')
-
 console.log('======')
 for (let k of store) {
   console.log(k)
 }
 console.log('======')
-console.log(store.all())
 
 
 // Runs once per browser session
@@ -41,55 +39,54 @@ function init() {
   ext.settings.version = '3.0.0'
 }
 
+
 // Accept search input via the address bar
 function handleBeforeSearch(e) {
   console.log('beforeSearch')
   console.log(e)
   let textEntered = e.query
   if (textEntered) {
-    let url = parseQuery(textEntered)
-    if (url) {
+    let urls = parseQuery(textEntered)
+    if (urls.length > 0) {
+      // Set the first URL as the target of the search event
       e.preventDefault()
-      // TODO: Multiple URLs, open subsequent in background tabs
-      e.target.url = url
+      e.target.url = urls.shift()
+      for (let url of urls) {
+        // Open any additional URLs in background tabs
+        app.activeBrowserWindow.openTab('background').url = url
+      }
     }
   }
 }
 
 
-// Run init function when global page is loaded
-init()
-
-
-// Converts the entered text into a URL
+// Convert the entered text into URL(s) according to rules
 function parseQuery(textEntered) {
   console.log('Parsing input: ' + textEntered)
-  return null
-  // if (textEntered.substr(0, 1) == '>') {
-  //   // If text starts with > use google site search
-  //   let key = textEntered.split(' ')[0]
-  //   // If no domain provided, get from currently open page
-  //   let siteToSearch = (key.length == 1) ? app.activeBrowserWindow.activeTab.url.match(/:\/\/(www\.)?(.[^/:]+)/)[2] : key.substr(1)
-  //   // Construct query and URL
-  //   let query = 'site:' + siteToSearch + ' ' + textEntered.substr(key.length + 1)
-  //   let url = 'http://www.google.com/search?q=' + encodeURIComponent(query).replace(/%20/g, '+')
-  //   console.log('URL: ' + url)
-  //   return url
-  // } else {
-  //   let key = textEntered.split(' ')[0]
-  //   let query = textEntered.substr(key.length + 1)
-  //   let data = store.get(key)
-  //   // If no query or no key or disabled key, take entire input as query and use default
-  //   if (query === '' || !data || !data.enabled || key == 'default') {
-  //     query  = textEntered
-  //     data = store.get('default')
-  //   }
-  //   let url = data.url.replace('@@@', encodeURIComponent(query).replace(/%20/g, '+'))
-  //   console.log('URL: ' + url)
-  //   return url
-  // }
+  const token_re = /\{\{(.*?)\}\}/g
+  let urls = []
+  for (let rule of store) {
+    // Get each token in key
+    let tokens = rule.key.match(token_re)
+    // Replace tokens with (.+?) and compile to regex
+    let query_re = new RegExp('^' + rule.key.replace(token_re, '(.+?)') + '$')
+    let queries = textEntered.match(query_re)
+    if (queries) {
+      // Replace tokens in URL with corresponding query
+      let url = rule.url
+      queries.shift()  // Remove first element (entire text entered)
+      for (let i = 0; i < queries.length; i++) {
+        url = url.split(tokens[i]).join(queries[i])
+      }
+      console.log('URL: ' + url)
+      urls.push(url)
+    }
+  }
+  return urls
 }
 
+
+// Open settings page
 function openSettings() {
   console.log('Opening KeySearch settings page')
   app.activeBrowserWindow.openTab('foreground').url = ext.baseURI + 'index.html'
@@ -133,3 +130,5 @@ function handleMessage(e) {
 }
 
 
+// Run init function when global page is loaded
+init()
