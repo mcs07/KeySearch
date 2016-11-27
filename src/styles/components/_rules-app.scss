@@ -1,11 +1,21 @@
 .rules-app {
     &__add {
-        margin: 10px 0 0 0;
-        float: right;
+        margin: 10px 5px 0 0;
+        float: left;
         color: #00bc00;
 
         &:hover {
             background-color: #00bc00;
         }
+    }
+
+    &__import {
+        margin: 10px 5px 0 0;
+        float: left;
+    }
+
+    &__export {
+        margin: 10px 5px 0 0;
+        float: left;
     }
 }

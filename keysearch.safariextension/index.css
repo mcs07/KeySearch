@@ -19,11 +19,19 @@
     background-color: #444; }
 
 .rules-app__add {
-  margin: 10px 0 0 0;
-  float: right;
+  margin: 10px 5px 0 0;
+  float: left;
   color: #00bc00; }
   .rules-app__add:hover {
     background-color: #00bc00; }
+
+.rules-app__import {
+  margin: 10px 5px 0 0;
+  float: left; }
+
+.rules-app__export {
+  margin: 10px 5px 0 0;
+  float: left; }
 
 .rule {
   padding: 20px 0; }
@@ -38,7 +46,7 @@
     margin: 0 5px 5px 0;
     flex: 1 80%; }
   .rule__enable {
-    margin: 2px 5px 8px 5px; }
+    margin: 2px 0 8px 5px; }
   .rule__delete {
     margin: 2px 0 8px 5px;
     color: #d40000; }

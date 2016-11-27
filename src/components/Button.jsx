@@ -5,6 +5,8 @@ import MdClear from 'react-icons/lib/md/clear'
 import MdPause from 'react-icons/lib/md/pause'
 import MdPlayArrow from 'react-icons/lib/md/play-arrow'
 import MdDelete from 'react-icons/lib/md/delete'
+import MdFileUpload from 'react-icons/lib/md/file-upload'
+import MdFileDownload from 'react-icons/lib/md/file-download'
 
 
 export default class Button extends React.Component {
@@ -23,6 +25,10 @@ export default class Button extends React.Component {
       case 'play': iconEl = MdPlayArrow
       break
       case 'delete': iconEl = MdDelete
+      break
+      case 'export': iconEl = MdFileDownload
+      break
+      case 'import': iconEl = MdFileUpload
       break
     }
     return (
