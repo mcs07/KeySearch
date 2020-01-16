@@ -1,3 +1,7 @@
+# DEPRECATED: Safari no longer supports extensions that modify the behaviour of the address bar. Consider using a separate tool, such as Alfred: https://www.alfredapp.com
+
+---
+
 # KeySearch
 
 **_A keyword search extension for Safari._**
